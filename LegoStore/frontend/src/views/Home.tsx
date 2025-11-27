@@ -1,8 +1,9 @@
 export const Home =() => {
     return (
         <>
-        <h1> this is the home </h1>
-        <img src=".././assets/images/legoStoreSale.png"  height="300"></img>
+        <img className="p-3" src=".././assets/images/legoStoreSale.png"  height="300"></img>
+
+        <h1> items </h1>
         </>
     )
 }
