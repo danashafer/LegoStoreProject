@@ -1,8 +1,6 @@
 import type { JSX } from "react";
 import { Home } from "../views/Home";
-
-
-// import Layout from "../views/Layout";
+import Layout from "../views/Layout";
 
 export interface Page {
   path: string;
@@ -24,7 +22,7 @@ export const routes: Page[] = [
 export const paths = [
   {
     path: "/",
-    element: <Home />,
+    element: <Layout />,
     children: routes.map((route) => ({
       path: route.path,
       element: route.element,
