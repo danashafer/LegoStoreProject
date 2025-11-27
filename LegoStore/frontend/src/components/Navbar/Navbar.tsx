@@ -4,14 +4,17 @@ import { routes, Page } from "../../router/paths";
 
 export const Navbar: FC = () => {
   return (
-    <nav className="jumbotron jumbotron-fluid  text-light p-0 pt-5" style ={{backgroundColor: "MediumPurple"}}>
-      <h1>Lego Store</h1>
-
-      <ul className="nav nav-tabs">
+    <>
+    <nav
+      className="navbar navbar-expand-lg navbar-light"
+      style={{ backgroundColor: "#e0b7ff" }}
+    >
+      <h1 className="navbar-brand">Lego Store</h1>
+      <ul className="navbar-nav mr-auto">       
         {routes
           .filter((route: Page) => route.isShown)
           .map((route: Page) => (
-            <li className="nav-item" key={route.name}>
+            <li className="nav-link"  key={route.name}>
               <NavLink
                 to={route.path}
                 className={({ isActive }) =>
@@ -24,5 +27,7 @@ export const Navbar: FC = () => {
           ))}
       </ul>
     </nav>
+
+    </>
   );
 };

@@ -1,6 +1,9 @@
 import type { JSX } from "react";
 import { Home } from "../views/Home";
 import Layout from "../views/Layout";
+import {Cart} from "../views/Cart.tsx"
+import {Profile} from "../views/ProfilePage.tsx"
+
 
 export interface Page {
   path: string;
@@ -13,9 +16,24 @@ export const routes: Page[] = [
   {
     path: "/",
     element: <Home />,
-    name: "בית",
+    name: "Home",
     isShown: true,
   },
+
+    {
+    path: "/cart",
+    element: <Cart />,
+    name: "Cart",
+    isShown: true,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+    name: "Profile",
+    isShown: true,
+  },
+  
+  
   
 ];
 
