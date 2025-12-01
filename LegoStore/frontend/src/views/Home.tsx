@@ -1,4 +1,4 @@
-import { ItemDisplayCard } from "../components/ItemDisplay.tsx"
+import { LegoDisplayCard } from "../components/LegoDisplayCard.tsx/index.ts"
 
 export const Home =() => {
     return (
@@ -6,7 +6,7 @@ export const Home =() => {
         <img className="p-3" src=".././assets/images/legoStoreSale.png"  height="300"></img>
 
         <h1> items </h1>
-        <ItemDisplayCard></ItemDisplayCard>
+        <LegoDisplayCard></LegoDisplayCard>
         </>
     )
 }
