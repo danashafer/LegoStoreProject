@@ -1,16 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('legos')
-export class Lego {
+@Entity('users')
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  username: string;
 
   @Column()
-  description: string;
+  password: string;
 
   @Column()
-  price: number;
+  email: string;
 }
