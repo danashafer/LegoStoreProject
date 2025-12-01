@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { LegoService } from 'src/services/lego.service';
 import { Lego } from 'src/entities/Lego.entity';
 
