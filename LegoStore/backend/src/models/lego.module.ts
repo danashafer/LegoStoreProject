@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { LegoController } from 'src/controllers/lego.controller';
+import { Lego } from 'src/entities/Lego.entity';
 import { LegoService } from 'src/services/lego.service';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Lego])],
   controllers: [LegoController],
   providers: [LegoService],
 })
