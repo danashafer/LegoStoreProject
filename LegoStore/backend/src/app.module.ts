@@ -18,7 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: false,
     }),
 
-    LegoModule, // <-- This connects the module
+    LegoModule,
   ],
 })
 export class AppModule {}
