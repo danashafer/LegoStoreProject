@@ -1,1 +1,1 @@
-export * from "./ItemDisplayCard";
+export * from "./LegoDisplayCard";
