@@ -1,0 +1,19 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Lego } from 'src/entities/Lego.entity';
+// import { Param } from '@nestjs/common';
+import { Repository } from 'typeorm';
+
+@Injectable()
+export class LegoService {
+  constructor(
+    @InjectRepository(Lego)
+    private readonly legoRepository: Repository<Lego>,
+  ) {}
+
+  async getAll(): Promise<Lego[]> {
+    const allLegos: Lego[] = await this.legoRepository.find();
+
+    return allLegos;
+  }
+}
