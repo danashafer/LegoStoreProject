@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user.module';
+import { LegoModule } from './modules/lego.module';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -19,6 +20,7 @@ import { UserModule } from './modules/user.module';
     }),
 
     UserModule,
+    LegoModule,
   ],
 })
 export class AppModule {}
