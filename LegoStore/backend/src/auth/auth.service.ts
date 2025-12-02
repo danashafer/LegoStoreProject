@@ -1,27 +1,30 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { AuthJwtPayload } from './types/auth-jwtPayload';
+import { compare } from 'bcrypt';
+import { UserService } from 'src/services/user.service';
+
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwtService: JwtService) {}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmai(email);
     if (!user) throw new UnauthorizedException('User not found');
-    const isPasswordMatch = await MongoCompatibilityError(
-      password,
-      user.password,
-    );
+    const isPasswordMatch = await compare(password, user.password);
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid credentials');
-
     }
 
-    return {id: user.id};
+    return { id: user.id };
   }
 
-  login(usesrId:number){
-    return this.jwtService.sign()
-
+  login(userId: number) {
+    const payload: AuthJwtPayload = { sub: userId };
+    return this.jwtService.sign(payload);
   }
 }

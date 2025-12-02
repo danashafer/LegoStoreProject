@@ -5,7 +5,7 @@ import { User } from 'src/entities/User.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class LegoService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly legoRepository: Repository<User>,
