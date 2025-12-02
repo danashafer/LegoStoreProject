@@ -12,7 +12,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.userService.findByEmai(email);
+    const user = await this.userService.findByEmail(email);
     if (!user) throw new UnauthorizedException('User not found');
     const isPasswordMatch = await compare(password, user.password);
     if (!isPasswordMatch) {
