@@ -19,7 +19,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return { id: user.id };
+    return { id: user.userId };
   }
 
   login(userId: number) {
