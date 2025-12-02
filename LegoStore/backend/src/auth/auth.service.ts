@@ -4,7 +4,6 @@ import { AuthJwtPayload } from './types/auth-jwtPayload';
 import { compare } from 'bcrypt';
 import { UserService } from 'src/services/user.service';
 
-
 @Injectable()
 export class AuthService {
   constructor(
