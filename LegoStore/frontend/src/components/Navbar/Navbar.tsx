@@ -6,7 +6,7 @@ import { LoginPopup } from "../LoginPopup";
 import { useLoginUser } from "../../api/hooks/useLogin.ts";
 
 export const Navbar: FC = () => {
-  const { userId } = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const { loginUser, isLoading, error } = useLoginUser()
@@ -28,14 +28,14 @@ export const Navbar: FC = () => {
     e: MouseEvent<HTMLAnchorElement>,
     path: string
   ) => {
-    if (!userId) {
+    if (!user) {
       e.preventDefault();
       openLogin(path);
     }
   };
 
   const handleLoginNavClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    if (!userId) {
+    if (!user) {
       e.preventDefault();
       openLogin(null);
     }
@@ -51,7 +51,7 @@ export const Navbar: FC = () => {
     console.log("user logging in")
 
     loginUser(email, password);
-    console.log(userId);
+    console.log(user);
   };
 
   return (
@@ -73,7 +73,7 @@ export const Navbar: FC = () => {
                   }
                   onClick={(e) => {
                     if (
-                      !userId &&
+                      !user &&
                       (route.path === "/cart" || route.path === "/profile")
                     ) {
                       handleProtectedClick(e, route.path);
@@ -85,7 +85,7 @@ export const Navbar: FC = () => {
               </li>
             ))}
 
-          {!userId && (
+          {!user && (
             <li className="nav-link" key="login">
               <NavLink
                 to="/login"
@@ -98,9 +98,9 @@ export const Navbar: FC = () => {
               </NavLink>
             </li>
           )}
-          {userId && (
+          {user && (
             <li className="nav-link" key="login">
-              <p>{userId}</p>
+              <p>{user.id}</p>
             </li>
           )}
         </ul>

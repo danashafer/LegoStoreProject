@@ -14,9 +14,9 @@ import { createContext } from "react";
 import { User } from "../../utils/types";
 
 export interface UserContextType {
-  userId: User["id"] | null;
-  setUserId: (userId: User["id"] | null) => void;
-  resetUserId: () => void;
+  user: User| null;
+  setUser: (userId: User | null) => void;
+  resetUser: () => void;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);

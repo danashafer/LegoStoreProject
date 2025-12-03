@@ -3,15 +3,15 @@ import { useUser } from "../context/User";
 import { useEffect } from "react";
 
 export const Profile = () => {
-  const { userId } = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) {
+    if (!user) {
       console.log("user is null");
       navigate("/");
     }
-  }, [userId, navigate]);
+  }, [user, navigate]);
 
   return (
     <>

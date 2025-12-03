@@ -59,9 +59,9 @@ import { useUser } from "../../context/User";
 // };
 
 export const useLoginUser = () => {
-  const { userId, setUserId } = useUser();
+  const { user, setUser } = useUser();
 
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -80,8 +80,8 @@ export const useLoginUser = () => {
       console.log(loggedUser);
 
       setUser(loggedUser);
-      setUserId(loggedUser.id);
-      console.log(userId);
+      // setUserId(loggedUser.id);
+      // console.log(userId);
 
       return loggedUser;
     } catch (err: unknown) {

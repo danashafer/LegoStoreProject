@@ -34,16 +34,16 @@ import { UserContext } from "./UserContext";
 export const UserProvider: FC<{ children: JSX.Element[] | JSX.Element }> = ({
   children,
 }) => {
-  const [userId, setUserId] = useState<User["id"] | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  const resetUserId = () => setUserId(null);
+  const resetUser = () => setUser(null);
 
   return (
     <UserContext.Provider
       value={{
-        userId,
-        setUserId,
-        resetUserId,
+        user,
+        setUser,
+        resetUser,
       }}
     >
       {children}
