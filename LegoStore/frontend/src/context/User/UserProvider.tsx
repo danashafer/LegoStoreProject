@@ -2,7 +2,7 @@ import { FC, JSX, useState } from "react";
 import { User } from "../../utils/types";
 import { UserContext } from "./UserContext";
 
-export const SelectedConvoyProvider: FC<{
+export const UserProvider: FC<{
   children: JSX.Element[] | JSX.Element;
 }> = ({ children }) => {
   const [userId, setUserId] = useState<User["id"] | null>(
