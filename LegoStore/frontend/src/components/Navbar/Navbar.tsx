@@ -1,62 +1,15 @@
-// import { FC } from "react";
-// import { NavLink } from "react-router-dom";
-// import { routes, Page } from "../../router/paths";
-// import { useUser } from "../../context/User";
-
-// export const Navbar: FC = () => {
-//   const { userId } = useUser();
-
-//   return (
-//     <>
-//       <nav
-//         className="navbar navbar-expand-lg navbar-light"
-//         style={{ backgroundColor: "#e0b7ff" }}
-//       >
-//         <h1 className="navbar-brand">Lego Store</h1>
-//         <ul className="navbar-nav mr-auto">
-//           {routes
-//             .filter((route: Page) => route.isShown)
-//             .map((route: Page) => (
-//               <li className="nav-link" key={route.name}>
-//                 <NavLink
-//                   to={route.path}
-//                   className={({ isActive }) =>
-//                     [isActive ? "active" : "text-light", "nav-link"].join(" ")
-//                   }
-//                 >
-//                   {route.name}
-//                 </NavLink>
-//               </li>
-//             ))}
-//           {!userId && (
-//             <li className="nav-link" key={"login"}>
-//               <NavLink
-//                 to={"/login"}
-//                 className={({ isActive }) =>
-//                   [isActive ? "active" : "text-light", "nav-link"].join(" ")
-//                 }
-//               >
-//                 {"login"}
-//               </NavLink>
-//             </li>
-//           )}
-
-//           {/* {!userId && <p>login</p>} */}
-//         </ul>
-//       </nav>
-//     </>
-//   );
-// };
-
 import { FC, useState, MouseEvent } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes, Page } from "../../router/paths";
 import { useUser } from "../../context/User";
-import { LoginPopup } from "../LoginPopup"
+import { LoginPopup } from "../LoginPopup";
+import { useLoginUser } from "../../api/hooks/useLogin.ts";
 
 export const Navbar: FC = () => {
   const { userId } = useUser();
   const navigate = useNavigate();
+
+  const { loginUser, isLoading, error } = useLoginUser()
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [afterLoginPath, setAfterLoginPath] = useState<string | null>(null);
@@ -88,12 +41,17 @@ export const Navbar: FC = () => {
     }
   };
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = async (email: string, password: string) => {
     setIsLoginOpen(false);
+
     if (afterLoginPath) {
       navigate(afterLoginPath);
       setAfterLoginPath(null);
     }
+    console.log("user logging in")
+
+    loginUser(email, password);
+    console.log(userId);
   };
 
   return (
@@ -140,13 +98,18 @@ export const Navbar: FC = () => {
               </NavLink>
             </li>
           )}
+          {userId && (
+            <li className="nav-link" key="login">
+              <p>{userId}</p>
+            </li>
+          )}
         </ul>
       </nav>
 
       <LoginPopup
         isOpen={isLoginOpen}
         onClose={closeLogin}
-        onSuccess={handleLoginSuccess}
+        onLogin={handleLoginSuccess}
       />
     </>
   );

@@ -1,1 +1,1 @@
-export * from "./LogInPopup"
+export * from "./LoginPopup"
