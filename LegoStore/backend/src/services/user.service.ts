@@ -16,7 +16,7 @@ export class UserService {
       where: {
         email: email,
       },
-      select: ['username', 'email'],
+      select: ['userId', 'username', 'email', 'password'],
     });
 
     return user;
@@ -27,7 +27,6 @@ export class UserService {
       where: {
         userId: id,
       },
-      select: ['username', 'email'],
     });
 
     return user;
