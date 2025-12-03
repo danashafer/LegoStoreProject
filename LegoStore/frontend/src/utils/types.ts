@@ -4,3 +4,9 @@ export interface Lego {
   description: string;
   price: number;
 }
+
+export interface User{
+  id: number;
+  username: string;
+  email: string;
+}
