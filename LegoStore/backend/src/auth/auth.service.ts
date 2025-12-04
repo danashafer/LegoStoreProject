@@ -23,12 +23,15 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return { userId: user.userId };
+    return { user };
   }
 
-  login(userId: number) {
-    console.log('logging in auth service');
-    const payload: AuthJwtPayload = { sub: userId };
+  login(user: { userId: number; role: 'admin' | 'user' }) {
+    const payload: AuthJwtPayload = {
+      sub: user.userId,
+      role: user.role,
+    };
+
     return this.jwtService.sign(payload);
   }
 }
