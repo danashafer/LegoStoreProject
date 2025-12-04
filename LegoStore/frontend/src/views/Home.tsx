@@ -18,6 +18,11 @@ export const Home = () => {
     getLegosForDisplay();
   }, []);
 
+  const handleAddNewLego = async(setName: string, description: string, price:number) =>{
+    api.legos().addNewLego(setName,description, price);
+
+  }
+
   return (
     <>
       <img
@@ -35,7 +40,7 @@ export const Home = () => {
           add new lego
         </button>
       )}
-      {isFormOpen && <NewLegoForm onClose={() => setIsFormOpen(false)} />}
+      {isFormOpen && <NewLegoForm onClose={() => setIsFormOpen(false)} onSubmitAddNewSet={() => handleAddNewLego} />}
       <LegoDisplayBar legos={legos} />
     </>
   );
