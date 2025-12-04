@@ -1,23 +1,30 @@
 import { FC, useState } from "react";
 
-// type LoginPopupProps = {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   onLogin: (email: string, password: string) => Promise<void> | void;
-// };
+type NewLegoFormProps = {
+  //   isOpen: boolean;
+  onClose: () => void;
+  onSubmitAddNewSet: (
+    setName: string,
+    description: string,
+    price: number
+  ) => Promise<void> | void;
+};
 
-export const LoginPopup = () => {
+export const NewLegoForm: FC<NewLegoFormProps> = ({
+  onClose,
+  onSubmitAddNewSet,
+}) => {
   //   if (!isOpen) return null;
 
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const [email, setEmail] = useState("");
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const [password, setPassword] = useState("");
+  const [setName, setSetName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
 
-  //   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     await onLogin(email, password);
-  //   };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await onSubmitAddNewSet(setName, description, price);
+    //   await onLogin(email, password);
+  };
 
   return (
     <>
@@ -43,7 +50,7 @@ export const LoginPopup = () => {
         >
           <h2>Add a new lego</h2>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               {" "}
               <label>dont have an account?</label>
@@ -55,10 +62,9 @@ export const LoginPopup = () => {
               <input
                 type="text"
                 className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-                // onChange={(e) => setEmail(e.target.value)}
+                id="setNameInput"
+                placeholder="set name"
+                onChange={(e) => setSetName(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -66,10 +72,9 @@ export const LoginPopup = () => {
               <input
                 type="text"
                 className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-                // onChange={(e) => setEmail(e.target.value)}
+                id="inputDescription"
+                placeholder="description"
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -77,14 +82,13 @@ export const LoginPopup = () => {
               <input
                 type="number"
                 className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-                // onChange={(e) => setEmail(e.target.value)}
+                id="priceInput"
+                placeholder="0"
+                onChange={(e) => setPrice(e.target.value)}
               />
             </div>
             <button type="submit" className="btn btn-primary">
-              Login
+              submit
             </button>
           </form>
         </div>
