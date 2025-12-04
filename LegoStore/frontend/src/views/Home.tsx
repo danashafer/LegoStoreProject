@@ -1,30 +1,35 @@
-
-import api from "../api/index.ts"
+import api from "../api/index.ts";
 import { useEffect, useState } from "react";
 import { Lego } from "../utils/types.ts";
 import { LegoDisplayBar } from "../components/LegoDisplayBar/LegoDisplayBar.tsx";
+import { useUser } from "../context/User/useUser.ts";
 
-export const Home =() => {
+export const Home = () => {
+  const [legos, setLegos] = useState<Lego[]>([]);
+  const {user} = useUser();
 
-      const [legos, setLegos] = useState<Lego[]>([]);
+  useEffect(() => {
+    const getLegosForDisplay = async () => {
+      setLegos((await api.legos().getAll()).data);
+    };
 
+    getLegosForDisplay();
+  }, []);
 
-    useEffect(()=> {
-        const getLegosForDisplay = async() => {
-            setLegos((await api.legos().getAll()).data)
-        }
+  
 
-        getLegosForDisplay();
-    },[])
+  return (
+    <>
+      <img
+        className="p-3"
+        src=".././assets/images/legoStoreSale.png"
+        height="300"
+      ></img>
 
-    return (
-        <>
-        <img className="p-3" src=".././assets/images/legoStoreSale.png"  height="300"></img>
+      <h1> items </h1>
+      {user?.role == "admin" && <button className="btn btn-secondary">add new lego</button>}
 
-        <h1> items </h1>
-        <LegoDisplayBar legos={legos}/>
-        
-        
-        </>
-    )
-}
+      <LegoDisplayBar legos={legos} />
+    </>
+  );
+};
