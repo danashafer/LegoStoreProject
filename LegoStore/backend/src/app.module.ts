@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LegoModule } from './models/lego.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './modules/user.module';
+import { LegoModule } from './modules/lego.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -18,7 +21,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: false,
     }),
 
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+
+    UserModule,
     LegoModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

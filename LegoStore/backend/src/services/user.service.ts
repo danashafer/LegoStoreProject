@@ -5,17 +5,28 @@ import { User } from 'src/entities/User.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class LegoService {
+export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly legoRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async getById(id: number): Promise<User> {
-    const user: User  = await this.legoRepository.findOne({
-        where{
-            user_id: id
-        }
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+      select: ['userId', 'username', 'email', 'password'],
+    });
+
+    return user;
+  }
+
+  async findOne(id: number): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: {
+        userId: id,
+      },
     });
 
     return user;
