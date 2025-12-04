@@ -7,6 +7,7 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(user?.email);
     if (!user) {
       console.log("user is null");
       navigate("/");
@@ -30,7 +31,7 @@ export const Profile = () => {
               style={{ height: 200, width: 200 }}
             />
             <p className="fw-bold">user name</p>
-            <p>user email</p>
+            <p>{user?.email}</p>
 
             <div className="bg-secondary w-25 position-absolute start-50 translate-middle mt-3g rounded ">
               <p> view order history</p>

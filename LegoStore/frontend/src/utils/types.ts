@@ -10,3 +10,8 @@ export interface User{
   username: string;
   email: string;
 }
+
+export interface LoginInfo {
+  id: number;
+  token: string;
+}

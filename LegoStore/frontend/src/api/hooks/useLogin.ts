@@ -60,6 +60,7 @@ import { useUser } from "../../context/User";
 
 export const useLoginUser = () => {
   const { user, setUser } = useUser();
+  // const {loginInfo} = useState();
 
   // const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,8 +76,15 @@ export const useLoginUser = () => {
       console.log(email);
       const response = await api.users().login(email, password);
       console.log(response);
-      const loggedUser = response.data;
+      const loginInfo = response.data;
       console.log("the logged user is:");
+      console.log(loginInfo);
+
+      localStorage.setItem("token", loginInfo.token);
+
+      const loggedUser = await (
+        await api.users().getProfile()
+      ).data;
       console.log(loggedUser);
 
       setUser(loggedUser);
