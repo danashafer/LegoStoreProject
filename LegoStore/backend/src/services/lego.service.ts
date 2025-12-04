@@ -16,4 +16,9 @@ export class LegoService {
 
     return allLegos;
   }
+
+  async addNewLego(lego: Lego): Promise<Lego> {
+    const addedLego = await this.legoRepository.save(lego);
+    return addedLego;
+  }
 }
