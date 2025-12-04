@@ -9,11 +9,3 @@ export class LocalAuthGuard extends AuthGuard('local') {
     return super.canActivate(context);
   }
 }
-// @Injectable()
-// export class LocalAuthGuard implements CanActivate {
-//   canActivate(
-//     context: ExecutionContext,
-//   ): boolean | Promise<boolean> | Observable<boolean> {
-//     return true;
-//   }
-// }

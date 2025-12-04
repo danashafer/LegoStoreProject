@@ -16,6 +16,12 @@ export const useLoginUser = () => {
     console.log("user loging in in the hook");
 
     try {
+      localStorage.removeItem("token");
+            console.log("the token at the beggining is:");
+
+      console.log(localStorage.getItem("token"));
+
+
       console.log(email);
       const response = await api.users().login(email, password);
       console.log(response);
@@ -24,10 +30,9 @@ export const useLoginUser = () => {
       console.log(loginInfo);
 
       localStorage.setItem("token", loginInfo.token);
+      console.log(localStorage.getItem("token"));
 
-      const loggedUser = await (
-        await api.users().getProfile()
-      ).data;
+      const loggedUser = await (await api.users().getProfile()).data;
       console.log(loggedUser);
 
       setUser(loggedUser);
