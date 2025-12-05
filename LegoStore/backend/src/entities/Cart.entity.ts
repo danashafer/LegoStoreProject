@@ -1,4 +1,5 @@
 import {
+  Column,
   Entity,
   JoinTable,
   ManyToMany,
@@ -16,6 +17,8 @@ export class Cart {
   @OneToOne(() => User, (user) => user.cart)
   user: User;
 
+  @Column({ name: 'user_id' })
+  userId: number;
   @ManyToMany(() => Lego, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
