@@ -22,6 +22,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("submiting");
     await onSubmitAddNewSet(setName, description, price);
     //   await onLogin(email, password);
   };
