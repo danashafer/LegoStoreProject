@@ -14,3 +14,8 @@ export class Lego {
   @Column()
   price: number;
 }
+// @ManyToMany(() => Cart, (cart: Cart) => cart.legos, {
+//   onDelete: 'CASCADE',
+//   onUpdate: 'CASCADE',
+// })
+// carts: Cart[];

@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../context/User";
 import { useNavigate } from "react-router-dom";
+import { Lego } from "../utils/types";
 
 export const Cart = () => {
   const { user } = useUser();
   const navigate = useNavigate();
+  const [legosInCart, setLegosInCart] = useState<Lego>()
 
   useEffect(() => {
     if (!user) {
@@ -26,7 +28,9 @@ export const Cart = () => {
           <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75">
             <h1> your cart</h1>
             <div>
-              
+
+              <LegoDisplayCard  />
+
             </div>
 
             {/* <img
