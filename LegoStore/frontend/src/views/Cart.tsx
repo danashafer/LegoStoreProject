@@ -24,7 +24,7 @@ export const Cart = () => {
   useEffect(() => {
     const getLegosInCart = async () => {
       console.log(user?.userId);
-      const res = await api.carts().getUserCart(user?.userId)
+      const res = await api.carts().getUserCart()
 
       setLegosInCart(res.data);
       console.log(legosInCart);
@@ -34,6 +34,7 @@ export const Cart = () => {
   }, []);
 
   console.log(legosInCart);
+  console.log(localStorage.getItem("token"));
 
   return (
     <>

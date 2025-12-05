@@ -6,7 +6,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { Cart } from 'src/entities/Cart.entity';
 import { Lego } from 'src/entities/Lego.entity';
 import { CartService } from 'src/services/cart.service';
@@ -14,20 +17,22 @@ import { CartService } from 'src/services/cart.service';
 @Controller('carts')
 export class CartControler {
   constructor(private readonly cartService: CartService) {}
-
-  @Get(':id')
-  async getByUserId(@Param('id', ParseIntPipe) id: number): Promise<Lego[]> {
-    const legosInCart = await this.cartService.getByUserId(id);
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getByUserId(@Req() req): Promise<Lego[]> {
+    const legosInCart = await this.cartService.getByUserId(req.user.id);
     console.log(legosInCart);
     return legosInCart;
   }
 
-  @Post(':userId/:legoId')
+  @UseGuards(JwtAuthGuard)
+  @Post('/:legoId')
   async addNewLegoToCart(
-    @Param('userId', ParseIntPipe) userId: number,
+    @Req() req,
     @Param('legoId', ParseIntPipe) legoId: number,
   ): Promise<void> {
-    await this.cartService.addNewLegoToCart(userId, legoId);
+    console.log('adding to cart');
+    await this.cartService.addNewLegoToCart(req.user.id, legoId);
   }
 
   //   @Delete(':userId/:legoId')

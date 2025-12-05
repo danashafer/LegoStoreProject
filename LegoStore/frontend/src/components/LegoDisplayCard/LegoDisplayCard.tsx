@@ -5,9 +5,10 @@ import { useUser } from "../../context/User";
 interface LegoDisplayCardProps {
   lego: Lego;
   onDeleteSet: (id: number) => void;
+  onAddToCart: (id: number)=> void;
 }
 
-export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet}) => {
+export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, onAddToCart}) => {
   const { user } = useUser();
   console.log(lego);
   console.log(lego.legoId);
@@ -29,10 +30,10 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet})
       <div className="card-body">
         <h5 className="card-title">{lego.name}</h5>
         <p className="card-text">{lego.description}</p>
-        <p className="card-text">{lego.price}</p>
+        <p className="card-text">{lego.price}$</p>
         <div className="row">
           {user && (
-            <a href="#" className="btn" style={{ backgroundColor: "#ffcce1" }}>
+            <a href="#" className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={() => onAddToCart(lego.legoId)}>
               add to cart
             </a>
           )}

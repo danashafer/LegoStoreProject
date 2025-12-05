@@ -42,8 +42,18 @@ export default {
 
   carts() {
     return {
-      getUserCart: (userId: number): Promise<AxiosResponse<Lego[]>> =>
-        axiosInstance.get(`carts/${userId}`),
+      getUserCart: (): Promise<AxiosResponse<Lego[]>> =>
+        axiosInstance.get(`carts`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },),
+      addLegoToCart:( legoId: number): Promise<AxiosResponse<Lego>> =>
+        axiosInstance.post(`carts/${legoId}`, null, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
     };
   },
 };

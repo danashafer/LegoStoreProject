@@ -4,16 +4,17 @@ import { LegoDisplayCard } from "../LegoDisplayCard";
 
 interface LegoDisplayBarProps {
   legos: Lego[];
-  onDeleteSet: (id: number)=>void
+  onDeleteSet: (id: number)=>void;
+  onAddToCart: (id: number)=> void
 }
 
-export const LegoDisplayBar: FC<LegoDisplayBarProps> = ({ legos, onDeleteSet }) => {
+export const LegoDisplayBar: FC<LegoDisplayBarProps> = ({ legos, onDeleteSet, onAddToCart }) => {
 
 
   return (
     <div className="d-flex">
       {legos.map((item) => (
-        <LegoDisplayCard key={item.id} lego={item} onDeleteSet={onDeleteSet} />
+        <LegoDisplayCard key={item.id} lego={item} onDeleteSet={onDeleteSet} onAddToCart={onAddToCart} />
       ))}
     </div>
   );
