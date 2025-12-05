@@ -30,7 +30,7 @@ export const Home = () => {
 
     await api.legos().deleteLego(legoToDeleteId);
 
-    setLegos((prev) => prev.filter((lego) => lego.id !== legoToDeleteId));
+    setLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
   };
 
   return (

@@ -9,6 +9,8 @@ interface LegoDisplayCardProps {
 
 export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet}) => {
   const { user } = useUser();
+  console.log(lego);
+  console.log(lego.legoId);
 
   return (
     <div
@@ -35,7 +37,7 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet})
             </a>
           )}
           {user?.role == "admin" && (
-            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={onDeleteSet(lego.id)}>
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={() => onDeleteSet(lego.legoId)}>
               <i className="bi bi-trash"></i>
             </button>
           )}

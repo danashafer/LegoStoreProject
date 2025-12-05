@@ -1,5 +1,5 @@
 export interface Lego {
-  id: number;
+  legoId: number;
   name: string;
   description: string;
   price: number;

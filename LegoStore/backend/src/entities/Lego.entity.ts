@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('legos')
 export class Lego {
-  @PrimaryGeneratedColumn()
-  lego_id: number;
+  @PrimaryGeneratedColumn({ name: 'lego_id' })
+  legoId: number;
 
   @Column()
   name: string;
