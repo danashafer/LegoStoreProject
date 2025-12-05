@@ -18,6 +18,8 @@ export class LegoService {
   }
 
   async addNewLego(lego: Lego): Promise<Lego> {
+    console.log('inside lego service, saving lego:');
+    console.log(lego);
     const addedLego = await this.legoRepository.save(lego);
     return addedLego;
   }

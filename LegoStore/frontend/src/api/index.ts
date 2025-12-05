@@ -10,11 +10,9 @@ export default {
     return {
       getAll: (): Promise<AxiosResponse<Lego[]>> => axiosInstance.get("legos"),
       addNewLego: (
-        setName: string,
-        description: string,
-        price: string
+        lego:Lego
       ): Promise<AxiosResponse<Lego>> =>
-        axiosInstance.post("admin/add-new-lego", {setName, description, price}, {
+        axiosInstance.post("admin/add-new-lego", lego, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

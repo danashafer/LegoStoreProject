@@ -6,18 +6,14 @@ interface LegoDisplayBarProps {
   legos: Lego[];
 }
 
-export const LegoDisplayBar: FC<LegoDisplayBarProps> = ({legos}) => {
+export const LegoDisplayBar: FC<LegoDisplayBarProps> = ({ legos }) => {
+
+  
   return (
     <div className="d-flex">
-        {legos.map((item) => (
+      {legos.map((item) => (
         <LegoDisplayCard key={item.id} lego={item} />
       ))}
-
     </div>
-
-    
-
-    
   );
 };
-

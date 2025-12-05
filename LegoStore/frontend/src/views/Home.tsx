@@ -10,6 +10,7 @@ export const Home = () => {
   const { user } = useUser();
   const [isFormOpen, setIsFormOpen] = useState(false);
 
+
   useEffect(() => {
     const getLegosForDisplay = async () => {
       setLegos((await api.legos().getAll()).data);
@@ -19,12 +20,13 @@ export const Home = () => {
   }, []);
 
   const handleAddNewLego = async (
-    setName: string,
-    description: string,
-    price: number
+    newLego: Lego
   ) => {
     console.log("adding lego set in home")
-    await api.legos().addNewLego(setName, description, price);
+    const response = await api.legos().addNewLego(newLego);
+
+
+    setLegos(prev => [...prev, response.data])
   };
 
   return (

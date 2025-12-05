@@ -33,6 +33,7 @@ export const LoginPopup: FC<LoginPopupProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          zIndex: 9999,
         }}
       >
         <div

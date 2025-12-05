@@ -3,6 +3,8 @@ export interface Lego {
   name: string;
   description: string;
   price: number;
+  imageUrl: string;
+  categoryId: number;
 }
 
 export interface User{

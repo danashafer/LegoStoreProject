@@ -1,13 +1,10 @@
 import { FC, useState } from "react";
+import { Lego } from "../../utils/types";
 
 type NewLegoFormProps = {
   //   isOpen: boolean;
   onClose: () => void;
-  onSubmitAddNewSet: (
-    setName: string,
-    description: string,
-    price: number
-  ) => Promise<void> | void;
+  onSubmitAddNewSet: (newLego: Lego) => Promise<void> | void;
 };
 
 export const NewLegoForm: FC<NewLegoFormProps> = ({
@@ -16,14 +13,22 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
 }) => {
   //   if (!isOpen) return null;
 
-  const [setName, setSetName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [newLego, setNewLego] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    imageUrl: "",
+  });
+
+  // const [setName, setSetName] = useState<string>("");
+  // const [description, setDescription] = useState<string>("");
+  // const [price, setPrice] = useState<number>(0);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("submiting");
-    await onSubmitAddNewSet(setName, description, price);
+    await onSubmitAddNewSet(newLego);
+    onClose();
     //   await onLogin(email, password);
   };
 
@@ -37,6 +42,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          zIndex: 9999,
         }}
       >
         <div
@@ -65,7 +71,12 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="setNameInput"
                 placeholder="set name"
-                onChange={(e) => setSetName(e.target.value)}
+                onChange={(e) =>
+                  setNewLego((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
               />
             </div>
             <div className="form-group">
@@ -75,7 +86,12 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="inputDescription"
                 placeholder="description"
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) =>
+                  setNewLego((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
               />
             </div>
             <div className="form-group">
@@ -85,7 +101,12 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="priceInput"
                 placeholder="0"
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) =>
+                  setNewLego((prev) => ({
+                    ...prev,
+                    price: e.target.value,
+                  }))
+                }
               />
             </div>
             <button type="submit" className="btn btn-primary">

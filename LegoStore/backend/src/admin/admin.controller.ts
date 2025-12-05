@@ -12,10 +12,12 @@ export class AdminController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post('admin/add-new-lego')
-  async addNewLego(@Body() lego: Lego) {
+  async addNewLego(@Body() lego: Lego): Promise<Lego> {
     console.log('adding new lego');
     console.log(lego);
 
-    await this.legoService.addNewLego(lego);
+    const addedLego = await this.legoService.addNewLego(lego);
+
+    return addedLego;
   }
 }
