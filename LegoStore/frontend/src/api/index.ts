@@ -15,8 +15,8 @@ export default {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
-      deleteLego: (legoId: number): Promise<AxiosResponse<Lego>> =>
-        axiosInstance.post("admin/delete-lego", legoId, {
+      deleteLego: (legoId: number): Promise<AxiosResponse<void>> =>
+        axiosInstance.delete(`admin/delete-lego/${legoId}`, legoId, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

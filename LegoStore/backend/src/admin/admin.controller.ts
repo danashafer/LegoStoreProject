@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Post, UseGuards, Body } from '@nestjs/common';
+import { Controller, Get, Req, Post, UseGuards, Body, Delete, Param, ParseIntPipe } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
@@ -19,5 +19,13 @@ export class AdminController {
     const addedLego = await this.legoService.addNewLego(lego);
 
     return addedLego;
+  }
+
+  @Delete('admin/delete-lego/:id')
+  async deleteLego(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    console.log('delening lego in controller' + id);
+    console.log(id);
+
+    await this.legoService.deleteLego(id);
   }
 }
