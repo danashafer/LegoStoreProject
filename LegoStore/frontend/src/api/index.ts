@@ -9,10 +9,14 @@ export default {
   legos() {
     return {
       getAll: (): Promise<AxiosResponse<Lego[]>> => axiosInstance.get("legos"),
-      addNewLego: (
-        lego:Lego
-      ): Promise<AxiosResponse<Lego>> =>
+      addNewLego: (lego: Lego): Promise<AxiosResponse<Lego>> =>
         axiosInstance.post("admin/add-new-lego", lego, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }),
+      deleteLego: (legoId: number): Promise<AxiosResponse<Lego>> =>
+        axiosInstance.post("admin/delete-lego", legoId, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
