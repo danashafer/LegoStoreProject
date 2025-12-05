@@ -6,8 +6,8 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from './User.entity';
-import { Lego } from './Lego.entity';
+import { User } from '../users/User.entity';
+import { Lego } from '../lego/Lego.entity';
 
 @Entity('carts')
 export class Cart {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Lego } from 'src/entities/Lego.entity';
+import { Lego } from 'src/lego/Lego.entity';
 // import { Param } from '@nestjs/common';
 import { Repository } from 'typeorm';
 

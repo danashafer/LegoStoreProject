@@ -10,9 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
-import { Cart } from 'src/entities/Cart.entity';
-import { Lego } from 'src/entities/Lego.entity';
-import { CartService } from 'src/services/cart.service';
+import { Cart } from 'src/cart/Cart.entity';
+import { Lego } from 'src/lego/Lego.entity';
+import { CartService } from 'src/cart/cart.service';
 
 @Controller('carts')
 export class CartControler {

@@ -2,8 +2,8 @@ import { Controller, Get, Req, Post, UseGuards, Body, Delete, Param, ParseIntPip
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
-import { Lego } from 'src/entities/Lego.entity';
-import { LegoService } from 'src/services/lego.service';
+import { Lego } from 'src/lego/Lego.entity';
+import { LegoService } from 'src/lego/lego.service';
 
 @Controller()
 export class AdminController {
