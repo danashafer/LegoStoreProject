@@ -4,12 +4,12 @@ import { useUser } from "../../context/User";
 
 interface CartItemProps {
   lego: Lego;
-  onDeleteSet: (id: number) => void;
+  onDeleteLego: (id: number) => void;
 }
 
 export const CartItem: FC<CartItemProps> = ({
   lego,
-  onDeleteSet,
+  onDeleteLego,
 }) => {
   const { user } = useUser();
   console.log(lego);
@@ -78,7 +78,7 @@ export const CartItem: FC<CartItemProps> = ({
       <button
         className="btn"
         style={{ marginRight: "16px" }}
-        // onClick={() => onDelete(lego.id)}
+        onClick={() => onDeleteLego(lego.legoId)}
       >
         <i className="bi bi-trash" style={{ fontSize: "18px" }}></i>
       </button>

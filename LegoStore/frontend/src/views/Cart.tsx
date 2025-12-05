@@ -10,9 +10,11 @@ export const Cart = () => {
   const navigate = useNavigate();
   const [legosInCart, setLegosInCart] = useState<Lego[]>([]);
 
-  const onDeleteSet = () => {
+  const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
+    await api.carts().deleteLegoFromCart(legoToDeleteId);
+    setLegosInCart((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
 
-  }
+  };
 
   useEffect(() => {
     if (!user) {
@@ -24,7 +26,7 @@ export const Cart = () => {
   useEffect(() => {
     const getLegosInCart = async () => {
       console.log(user?.userId);
-      const res = await api.carts().getUserCart()
+      const res = await api.carts().getUserCart();
 
       setLegosInCart(res.data);
       console.log(legosInCart);
@@ -52,7 +54,7 @@ export const Cart = () => {
                 <CartItem
                   key={item.legoId}
                   lego={item}
-                  onDeleteSet={onDeleteSet}
+                  onDeleteLego={handleDeleteLegoFromCart}
                 />
               ))}
             </div>

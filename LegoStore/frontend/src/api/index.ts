@@ -55,7 +55,7 @@ export default {
           },
         }),
       deleteLegoFromCart: (legoId: number): Promise<AxiosResponse<void>> =>
-        axiosInstance.delete(`carts${legoId}`, {
+        axiosInstance.delete(`carts/${legoId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
