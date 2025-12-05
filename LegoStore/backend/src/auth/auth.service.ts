@@ -1,8 +1,10 @@
+
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthJwtPayload } from './types/auth-jwtPayload';
 import { compare } from 'bcrypt';
 import { UserService } from 'src/services/user.service';
+import { User } from 'src/entities/User.entity';
 
 @Injectable()
 export class AuthService {
@@ -11,24 +13,37 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<User> {
     console.log('entered validate user');
+    console.log(email);
+
     const user = await this.userService.findByEmail(email);
-    console.log('the user is: ');
+
+    console.log('the user is:');
     console.log(user);
     console.log(user?.password);
-    if (!user) throw new UnauthorizedException('User not found');
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
     const isPasswordMatch = await compare(password, user.password);
+
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return { userId: user.userId };
+    // important: return the user object, not { user }
+    return user;
   }
 
-  login(userId: number) {
-    console.log('logging in auth service');
-    const payload: AuthJwtPayload = { sub: userId };
+  login(user: User) {
+    console.log('user in login:', user);
+    const payload: AuthJwtPayload = {
+      sub: user.userId, // adjust to your field name
+      role: user.role, // "admin" | "user"
+    };
+
     return this.jwtService.sign(payload);
   }
 }

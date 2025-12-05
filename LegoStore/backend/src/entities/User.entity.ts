@@ -13,4 +13,7 @@ export class User {
 
   @Column()
   email: string;
+
+  @Column()
+  role: 'user' | 'admin';
 }

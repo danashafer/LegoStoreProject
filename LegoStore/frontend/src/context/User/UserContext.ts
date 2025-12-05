@@ -15,7 +15,7 @@ import { User } from "../../utils/types";
 
 export interface UserContextType {
   user: User| null;
-  setUser: (userId: User | null) => void;
+  setUser: (user: User | null) => void;
   resetUser: () => void;
 }
 

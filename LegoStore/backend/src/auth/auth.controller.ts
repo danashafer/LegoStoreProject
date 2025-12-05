@@ -17,8 +17,18 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    console.log('entered auth controller');
-    const token = this.authService.login(req.user.userId);
-    return { id: req.user.userId, token };
+    const token = this.authService.login(req.user);
+
+    return {
+      id: req.user.userId,
+      role: req.user.role,
+      token,
+    };
   }
+  //   @Post('login')
+  //   async login(@Request() req) {
+  //     console.log('entered auth controller');
+  //     const token = this.authService.login(req.user.userId);
+  //     return { id: req.user.userId, token };
+  //   }
 }

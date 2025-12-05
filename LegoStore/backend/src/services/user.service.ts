@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { use } from 'passport';
 import { User } from 'src/entities/User.entity';
 // import { Param } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -12,12 +13,15 @@ export class UserService {
   ) {}
 
   async findByEmail(email: string) {
+    console.log('finding by email');
     const user = await this.userRepository.findOne({
       where: {
         email: email,
       },
-      select: ['userId', 'username', 'email', 'password'],
+      select: ['userId', 'username', 'email', 'password', 'role'],
     });
+
+    console.log(user);
 
     return user;
   }

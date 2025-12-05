@@ -33,6 +33,7 @@ export const LoginPopup: FC<LoginPopupProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          zIndex: 9999,
         }}
       >
         <div
@@ -75,20 +76,14 @@ export const LoginPopup: FC<LoginPopupProps> = ({
                 className="form-control"
                 id="exampleInputPassword1"
                 placeholder="Password"
-                          onChange={e => setPassword(e.target.value)}
-
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Login
             </button>
           </form>
-
-        
         </div>
       </div>
     </>
