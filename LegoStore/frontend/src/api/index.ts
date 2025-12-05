@@ -39,4 +39,11 @@ export default {
         }),
     };
   },
+
+  carts() {
+    return {
+      getUserCart: (userId: number): Promise<AxiosResponse<Lego[]>> =>
+        axiosInstance.get(`carts/${userId}`),
+    };
+  },
 };

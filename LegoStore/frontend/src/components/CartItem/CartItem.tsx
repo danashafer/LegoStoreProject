@@ -2,12 +2,12 @@ import { FC } from "react";
 import { Lego } from "../../utils/types";
 import { useUser } from "../../context/User";
 
-interface LegoDisplayCardProps {
+interface CartItemProps {
   lego: Lego;
   onDeleteSet: (id: number) => void;
 }
 
-export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({
+export const CartItem: FC<CartItemProps> = ({
   lego,
   onDeleteSet,
 }) => {

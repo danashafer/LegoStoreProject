@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { useUser } from "../context/User";
 import { useNavigate } from "react-router-dom";
 import { Lego } from "../utils/types";
+import api from "../api";
+import { CartItem } from "../components/CartItem";
 
 export const Cart = () => {
   const { user } = useUser();
   const navigate = useNavigate();
-  const [legosInCart, setLegosInCart] = useState<Lego>()
+  const [legosInCart, setLegosInCart] = useState<Lego[]>([]);
+
+  const onDeleteSet = () => {
+
+  }
 
   useEffect(() => {
     if (!user) {
@@ -15,8 +21,21 @@ export const Cart = () => {
     }
   }, [user, navigate]);
 
-  return (
+  useEffect(() => {
+    const getLegosInCart = async () => {
+      console.log(user?.userId);
+      const res = await api.carts().getUserCart(user?.userId)
 
+      setLegosInCart(res.data);
+      console.log(legosInCart);
+    };
+
+    getLegosInCart();
+  }, []);
+
+  console.log(legosInCart);
+
+  return (
     <>
       <div className="d-flex justify-content-center">
         <div className="m-3 position-relative  " style={{ width: 2000 }}>
@@ -25,12 +44,16 @@ export const Cart = () => {
             alt=""
             className="w-100"
           />
-          <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75">
+          <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3">
             <h1> your cart</h1>
             <div>
-
-              <LegoDisplayCard  />
-
+              {legosInCart.map((item) => (
+                <CartItem
+                  key={item.legoId}
+                  lego={item}
+                  onDeleteSet={onDeleteSet}
+                />
+              ))}
             </div>
 
             {/* <img
@@ -51,6 +74,6 @@ export const Cart = () => {
         </div>
       </div>
     </>
-  // <h1> this is the cart page </h1>
-  )
+    // <h1> this is the cart page </h1>
+  );
 };

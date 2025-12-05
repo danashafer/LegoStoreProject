@@ -1,9 +1,8 @@
 import type { JSX } from "react";
 import { Home } from "../views/Home";
 import Layout from "../views/Layout";
-import {Cart} from "../views/Cart.tsx"
-import {Profile} from "../views/ProfilePage.tsx"
-
+import { Cart } from "../views/Cart.tsx";
+import { Profile } from "../views/ProfilePage.tsx";
 
 export interface Page {
   path: string;
@@ -20,7 +19,7 @@ export const routes: Page[] = [
     isShown: true,
   },
 
-    {
+  {
     path: "/cart",
     element: <Cart />,
     name: "Cart",
@@ -32,9 +31,6 @@ export const routes: Page[] = [
     name: "Profile",
     isShown: true,
   },
-  
-  
-  
 ];
 
 export const paths = [

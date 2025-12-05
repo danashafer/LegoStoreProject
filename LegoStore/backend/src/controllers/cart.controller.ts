@@ -11,13 +11,15 @@ import { Cart } from 'src/entities/Cart.entity';
 import { Lego } from 'src/entities/Lego.entity';
 import { CartService } from 'src/services/cart.service';
 
-@Controller('cart')
+@Controller('carts')
 export class CartControler {
   constructor(private readonly cartService: CartService) {}
 
   @Get(':id')
-  getByUserId(@Param('id', ParseIntPipe) id: number): Promise<Lego[]> {
-    return this.cartService.getByUserId(id);
+  async getByUserId(@Param('id', ParseIntPipe) id: number): Promise<Lego[]> {
+    const legosInCart = await this.cartService.getByUserId(id);
+    console.log(legosInCart);
+    return legosInCart;
   }
 
   @Post(':userId/:legoId')
