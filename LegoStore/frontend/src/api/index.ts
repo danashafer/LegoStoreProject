@@ -16,7 +16,7 @@ export default {
           },
         }),
       deleteLego: (legoId: number): Promise<AxiosResponse<void>> =>
-        axiosInstance.delete(`admin/delete-lego/${legoId}`, legoId, {
+        axiosInstance.delete(`admin/delete-lego/${legoId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -33,6 +33,29 @@ export default {
 
       getProfile: (): Promise<AxiosResponse<User>> =>
         axiosInstance.get("profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }),
+    };
+  },
+
+  carts() {
+    return {
+      getUserCart: (): Promise<AxiosResponse<Lego[]>> =>
+        axiosInstance.get(`carts`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }),
+      addLegoToCart: (legoId: number): Promise<AxiosResponse<Lego>> =>
+        axiosInstance.post(`carts/${legoId}`, null, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }),
+      deleteLegoFromCart: (legoId: number): Promise<AxiosResponse<void>> =>
+        axiosInstance.delete(`carts/${legoId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

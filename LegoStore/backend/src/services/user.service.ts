@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { use } from 'passport';
 import { User } from 'src/entities/User.entity';
 // import { Param } from '@nestjs/common';
 import { Repository } from 'typeorm';

@@ -5,6 +5,10 @@ import { LegoModule } from './modules/lego.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
+import { User } from './entities/User.entity';
+import { Lego } from './entities/Lego.entity';
+import { Cart } from './entities/Cart.entity';
+import { CartModule } from './modules/cart.module';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -18,6 +22,7 @@ import { AdminModule } from './admin/admin.module';
       password: 'postgres',
       database: 'postgres',
       schema: 'legostore',
+      entities: [User, Lego, Cart],
       autoLoadEntities: true,
       synchronize: false,
     }),
@@ -31,6 +36,7 @@ import { AdminModule } from './admin/admin.module';
     LegoModule,
     AuthModule,
     AdminModule,
+    CartModule,
   ],
 })
 export class AppModule {}

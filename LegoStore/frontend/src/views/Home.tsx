@@ -33,6 +33,10 @@ export const Home = () => {
     setLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
   };
 
+  const handleAddLegoToCart = async (legoToAddId: number) => {
+    await api.carts().addLegoToCart(legoToAddId);
+  };
+
   return (
     <>
       <img
@@ -56,7 +60,11 @@ export const Home = () => {
           onSubmitAddNewSet={handleAddNewLego}
         />
       )}
-      <LegoDisplayBar legos={legos} onDeleteSet ={handleDeleteLego}/>
+      <LegoDisplayBar
+        legos={legos}
+        onDeleteSet={handleDeleteLego}
+        onAddToCart={handleAddLegoToCart}
+      />
     </>
   );
 };
