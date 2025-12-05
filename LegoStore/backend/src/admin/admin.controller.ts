@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Post, UseGuards, Body } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
@@ -12,8 +12,9 @@ export class AdminController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post('admin/add-new-lego')
-  async addNewLego(lego: Lego) {
-    console.log('adding new ledo');
+  async addNewLego(@Body() lego: Lego) {
+    console.log('adding new lego');
+    console.log(lego);
 
     await this.legoService.addNewLego(lego);
   }

@@ -9,4 +9,4 @@ import { AdminController } from './admin.controller';
   controllers: [AdminController],
   providers: [LegoService],
 })
-export class LegoModule {}
+export class AdminModule {}
