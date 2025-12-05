@@ -23,4 +23,10 @@ export class LegoService {
     const addedLego = await this.legoRepository.save(lego);
     return addedLego;
   }
+
+  async deleteLego(id: number): Promise<void> {
+    console.log('deleting lego');
+
+    await this.legoRepository.delete(id);
+  }
 }

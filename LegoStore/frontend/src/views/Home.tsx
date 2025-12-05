@@ -28,9 +28,9 @@ export const Home = () => {
   const handleDeleteLego = async (legoToDeleteId: number) => {
     console.log("deleting lego " + legoToDeleteId);
 
-    const deletedLego = await api.legos().deleteLego(legoToDeleteId);
+    await api.legos().deleteLego(legoToDeleteId);
 
-    setLegos((prev) => prev.filter((lego) => lego.id !== id));
+    setLegos((prev) => prev.filter((lego) => lego.id !== legoToDeleteId));
   };
 
   return (
@@ -56,7 +56,7 @@ export const Home = () => {
           onSubmitAddNewSet={handleAddNewLego}
         />
       )}
-      <LegoDisplayBar legos={legos} />
+      <LegoDisplayBar legos={legos} onDeleteSet ={handleDeleteLego}/>
     </>
   );
 };

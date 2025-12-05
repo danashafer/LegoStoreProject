@@ -4,9 +4,10 @@ import { useUser } from "../../context/User";
 
 interface LegoDisplayCardProps {
   lego: Lego;
+  onDeleteSet: (id: number) => void;
 }
 
-export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego }) => {
+export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet}) => {
   const { user } = useUser();
 
   return (
@@ -34,7 +35,7 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego }) => {
             </a>
           )}
           {user?.role == "admin" && (
-            <button className="btn" style={{ backgroundColor: "#ffcce1" }}>
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={onDeleteSet(lego.id)}>
               <i className="bi bi-trash"></i>
             </button>
           )}
