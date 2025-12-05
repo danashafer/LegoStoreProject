@@ -34,13 +34,13 @@ export class CartControler {
     console.log('adding to cart');
     await this.cartService.addNewLegoToCart(req.user.id, legoId);
   }
-
-  //   @Delete(':userId/:legoId')
-  //   deleteLegoFromCart(
-  //     @Body() lego: Lego,
-  //     @Param('userId', ParseIntPipe) userId: number,
-  //     @Param('legoId', ParseIntPipe) legoId: number,
-  //   ): Promise<Cart> {
-  //     return this.cartService.deleteLegoFromCart(userId, legoId);
-  //   }
+  
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:legoId')
+  deleteLegoFromCart(
+    @Req() req,
+    @Param('legoId', ParseIntPipe) legoId: number,
+  ): Promise<void> {
+    return this.cartService.deleteLegoFromCart(req.user.id, legoId);
+  }
 }
