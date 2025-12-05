@@ -30,13 +30,3 @@ export class Cart {
   })
   legos: Lego[];
 }
-//   @ManyToMany(() => Lego, (lego: Lego) => lego.carts, {
-//     onDelete: 'CASCADE',
-//     onUpdate: 'CASCADE',
-//   })
-//   @JoinTable({
-//     name: 'cart_items',
-//     joinColumn: { name: 'cart_id', referencedColumnName: 'cartId' },
-//     inverseJoinColumn: { name: 'lego_id', referencedColumnName: 'legoId' },
-//   })
-//   legos: Lego[];

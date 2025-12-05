@@ -55,4 +55,22 @@ export class CartService {
 
     await this.cartRepository.save(cart);
   }
+
+  async deleteLegoFromCart(userId: number, legoId: number): Promise<void> {
+    const cart = await this.cartRepository.findOne({
+      where: { userId },
+      relations: ['legos'],
+    });
+
+    if (!cart) {
+      // no cart, nothing to remove
+      return;
+    }
+
+    // filter out the lego
+    cart.legos = cart.legos.filter((item) => item.legoId !== legoId);
+
+    // save updated cart
+    await this.cartRepository.save(cart);
+  }
 }
