@@ -14,6 +14,18 @@ export class CartService {
     private readonly legoRepository: Repository<Lego>,
   ) {}
 
+  async getByUserId(userId: number): Promise<Lego[]> {
+    const cart = await this.cartRepository.findOne({
+      where: { userId },
+      relations: ['legos'],
+    });
+
+    if (!cart) {
+      return [];
+    }
+    return cart.legos ?? [];
+  }
+
   async addNewLegoToCart(userId: number, legoId: number): Promise<void> {
     let cart = await this.cartRepository.findOne({
       where: { userId },

@@ -8,6 +8,7 @@ import { AdminModule } from './admin/admin.module';
 import { User } from './entities/User.entity';
 import { Lego } from './entities/Lego.entity';
 import { Cart } from './entities/Cart.entity';
+import { CartModule } from './modules/cart.module';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -35,6 +36,7 @@ import { Cart } from './entities/Cart.entity';
     LegoModule,
     AuthModule,
     AdminModule,
+    CartModule,
   ],
 })
 export class AppModule {}
