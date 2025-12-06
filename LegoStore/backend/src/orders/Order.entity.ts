@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Lego } from 'src/lego/Lego.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity('orders')
 export class Order {
@@ -13,4 +20,15 @@ export class Order {
 
   @Column()
   createdAt: Date;
+
+  @ManyToMany(() => Lego, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinTable({
+    name: 'order_items',
+    joinColumn: { name: 'order_id', referencedColumnName: 'orderId' },
+    inverseJoinColumn: { name: 'lego_id', referencedColumnName: 'legoId' },
+  })
+  legos: Lego[];
 }
