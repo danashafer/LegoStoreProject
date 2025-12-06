@@ -1,9 +1,10 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { Lego, LoginInfo, Order, User } from "../utils/types";
+import axiosInstance from "./axiosInstance";
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
-});
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:3000",
+// });
 
 export default {
   legos() {
@@ -37,6 +38,10 @@ export default {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
+      signUp: (username: string, email: string, password: string) =>
+        axiosInstance.post("/auth/register", { username, email, password }),
+      loginWithGoogle: (idToken: string) =>
+        axiosInstance.post("/auth/google", { idToken }),
     };
   },
 
@@ -72,8 +77,8 @@ export default {
           },
         }),
       placeOrder: (): Promise<AxiosResponse<void>> =>
-        axiosInstance.post("orders", null , {
-           headers: {
+        axiosInstance.post("orders", null, {
+          headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),

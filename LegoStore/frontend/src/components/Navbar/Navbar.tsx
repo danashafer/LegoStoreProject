@@ -1,26 +1,30 @@
+
 import { FC, useState, MouseEvent } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes, Page } from "../../router/paths";
 import { useUser } from "../../context/User";
-import { LoginPopup } from "../LoginPopup";
-import { useLoginUser } from "../../api/hooks/useLogin.ts";
+import { AuthPopup } from "../AuthPopup/AuthPopup";
+import axiosInstance from "../../api/axiosInstance";
 
 export const Navbar: FC = () => {
-  const { user } = useUser();
+  const { user, setUser, resetUser } = useUser();
   const navigate = useNavigate();
 
-  const { loginUser, isLoading, error } = useLoginUser()
-
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [afterLoginPath, setAfterLoginPath] = useState<string | null>(null);
 
-  const openLogin = (path: string | null = null) => {
-    setAfterLoginPath(path);
-    setIsLoginOpen(true);
+  const handleLogout = () => {
+    resetUser();
+    navigate("/");
   };
 
-  const closeLogin = () => {
-    setIsLoginOpen(false);
+  const openAuth = (path: string | null = null) => {
+    setAfterLoginPath(path);
+    setIsAuthOpen(true);
+  };
+
+  const closeAuth = () => {
+    setIsAuthOpen(false);
     setAfterLoginPath(null);
   };
 
@@ -30,28 +34,43 @@ export const Navbar: FC = () => {
   ) => {
     if (!user) {
       e.preventDefault();
-      openLogin(path);
+      openAuth(path);
     }
   };
 
   const handleLoginNavClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!user) {
       e.preventDefault();
-      openLogin(null);
+      openAuth(null);
     }
   };
 
-  const handleLoginSuccess = async (email: string, password: string) => {
-    setIsLoginOpen(false);
+  const handleAuthSuccess = (data: {
+    id: number;
+    username: string;
+    email: string;
+    role: "user" | "admin";
+    token: string;
+  }) => {
+    localStorage.setItem("token", data.token);
+
+    axiosInstance.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${data.token}`;
+
+    setUser({
+      userId: data.id,
+      username: data.username,
+      email: data.email,
+      role: data.role,
+    });
 
     if (afterLoginPath) {
       navigate(afterLoginPath);
       setAfterLoginPath(null);
     }
-    console.log("user logging in")
 
-    loginUser(email, password);
-    console.log(user);
+    setIsAuthOpen(false);
   };
 
   return (
@@ -69,7 +88,10 @@ export const Navbar: FC = () => {
                 <NavLink
                   to={route.path}
                   className={({ isActive }) =>
-                    [isActive ? "active" : "text-light", "nav-link"].join(" ")
+                    [
+                      isActive ? "active text-light" : "text-dark",
+                      "nav-link",
+                    ].join(" ")
                   }
                   onClick={(e) => {
                     if (
@@ -87,29 +109,34 @@ export const Navbar: FC = () => {
 
           {!user && (
             <li className="nav-link" key="login">
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  [isActive ? "active" : "text-light", "nav-link"].join(" ")
-                }
+              <button
+                className="btn nav-link"
+                style={{ backgroundColor: "#ffcce1" }}
                 onClick={handleLoginNavClick}
               >
                 login
-              </NavLink>
+              </button>
             </li>
           )}
+
           {user && (
-            <li className="nav-link" key="login">
-              <p>{user.id}</p>
+            <li className="nav-link" key="logout">
+              <button
+                className="btn"
+                style={{ backgroundColor: "#ffcce1" }}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             </li>
           )}
         </ul>
       </nav>
 
-      <LoginPopup
-        isOpen={isLoginOpen}
-        onClose={closeLogin}
-        onLogin={handleLoginSuccess}
+      <AuthPopup
+        isOpen={isAuthOpen}
+        onClose={closeAuth}
+        onAuthSuccess={handleAuthSuccess}
       />
     </>
   );

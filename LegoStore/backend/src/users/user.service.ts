@@ -34,4 +34,14 @@ export class UserService {
 
     return user;
   }
+
+  async create(data: {
+    username: string;
+    email: string;
+    password: string;
+    role: 'user' | 'admin';
+  }) {
+    const user = this.userRepository.create(data);
+    return this.userRepository.save(user);
+  }
 }
