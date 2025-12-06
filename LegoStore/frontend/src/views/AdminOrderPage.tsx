@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import { Order } from "../utils/types";
+import { Order, OrderStatus } from "../utils/types";
 import { OrderHistoryItem } from "../components/OrderHistoryItem/OrderHistoryItem";
 
 export const AdminOrdersPage = () => {
@@ -15,13 +15,18 @@ export const AdminOrdersPage = () => {
     load();
   }, []);
 
+  const handleChangeStatus = async (orderId: number, newStatus: OrderStatus) =>{
+    await api.orders().changeStatus(orderId, newStatus);
+
+  }
+
   return (
     <div className="p-4">
       <h2>All orders</h2>
 
       {orders.map((order) => (
         <div key={order.orderId} className="mb-3">
-          <OrderHistoryItem order={order} />
+          <OrderHistoryItem order={order} canEditStatus={true} onChangeStatus={handleChangeStatus} />
         </div>
       ))}
     </div>
