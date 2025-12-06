@@ -43,6 +43,15 @@ export const Profile = () => {
               </NavLink>
               <i className="bi bi-clock-history"></i>
             </button>
+            {user?.role =="admin" && <button
+              type="submit"
+              className="btn"
+              style={{ backgroundColor: "#ffcce1" }}
+            >
+               <NavLink to="/admin-orders">
+                view all orders
+              </NavLink>
+            </button>}
           </div>
         </div>
       </div>

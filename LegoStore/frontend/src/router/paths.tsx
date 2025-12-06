@@ -4,6 +4,7 @@ import Layout from "../views/Layout";
 import { Cart } from "../views/Cart.tsx";
 import { Profile } from "../views/ProfilePage.tsx";
 import { OrderHistory } from "../views/OrderHistory.tsx";
+import { AdminOrdersPage } from "../views/AdminOrderPage.tsx";
 
 export interface Page {
   path: string;
@@ -37,6 +38,12 @@ export const routes: Page[] = [
     path: "/order-history",
     element: <OrderHistory />,
     name: "Order Hoistory",
+    isShown: false,
+  },
+  {
+    path: "/admin-orders",
+    element: <AdminOrdersPage />,
+    name: "Admin Orders Page",
     isShown: false,
   },
   

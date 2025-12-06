@@ -82,6 +82,8 @@ export default {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
+        getAllOrders: (): Promise<AxiosResponse<Order[]>> => 
+          axiosInstance.get("admin/orders")
     };
   },
 };
