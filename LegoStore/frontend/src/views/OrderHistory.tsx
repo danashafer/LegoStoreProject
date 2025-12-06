@@ -4,18 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { Lego, Order } from "../utils/types";
 import api from "../api";
 import { CartItem } from "../components/CartItem";
+import { OrderHistoryItem } from "../components/OrderHistoryItem/OrderHistoryItem";
 
 export const OrderHistory = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
 
-//   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
-//     await api.carts().deleteLegoFromCart(legoToDeleteId);
-//     setLegosInCart((prev) =>
-//       prev.filter((lego) => lego.legoId !== legoToDeleteId)
-//     );
-//   };
+  //   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
+  //     await api.carts().deleteLegoFromCart(legoToDeleteId);
+  //     setLegosInCart((prev) =>
+  //       prev.filter((lego) => lego.legoId !== legoToDeleteId)
+  //     );
+  //   };
 
   useEffect(() => {
     if (!user) {
@@ -47,25 +48,18 @@ export const OrderHistory = () => {
             alt=""
             className="w-100"
           />
-          <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3">
-            <h1> Order History</h1>
-            {/* <div>
-              {legosInCart.map((item) => (
-                <CartItem
-                  key={item.legoId}
-                  lego={item}
-                  onDeleteLego={handleDeleteLegoFromCart}
-                />
-              ))}
-            </div>
+          <div
+            className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3"
+            style={{ overflowY: "auto" }}
+          >
+            <h1>Order History</h1>
 
-            <button className="btn" style={{ backgroundColor: "#ffcce1" }}>
-              place order
-            </button> */}
+            {orders.map((item) => (
+              <OrderHistoryItem key={item.orderId} order={item} />
+            ))}
           </div>
         </div>
       </div>
     </>
-    // <h1> this is the cart page </h1>
   );
 };

@@ -30,6 +30,7 @@ export interface Order {
   status: orderStatus;
   createdAt: string;
   items: OrderItem[];
+  totalPrice: number;
 }
 
 enum orderStatus {

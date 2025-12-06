@@ -48,7 +48,10 @@ export const Cart = () => {
             alt=""
             className="w-100"
           />
-          <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3">
+          <div
+            className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3"
+            style={{ overflowY: "auto" }}
+          >
             <h1> your cart</h1>
             <div>
               {legosInCart.map((item) => (
