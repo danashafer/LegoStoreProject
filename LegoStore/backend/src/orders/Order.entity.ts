@@ -1,11 +1,5 @@
-import { Lego } from 'src/lego/Lego.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { OrderItem } from './orderItem.entity';
 
 @Entity('orders')
 export class Order {
@@ -18,17 +12,16 @@ export class Order {
   @Column({ name: 'user_id' })
   userId: number;
 
-  @Column({ name: 'created_at' })
+  @Column({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @ManyToMany(() => Lego, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinTable({
-    name: 'order_items',
-    joinColumn: { name: 'order_id', referencedColumnName: 'orderId' },
-    inverseJoinColumn: { name: 'lego_id', referencedColumnName: 'legoId' },
-  })
-  legos: Lego[];
+  @Column({ name: 'total_price', type: 'decimal', precision: 10, scale: 2 })
+  totalPrice: string;
+
+  @OneToMany(() => OrderItem, (item) => item.order, { cascade: true })
+  items: OrderItem[];
 }

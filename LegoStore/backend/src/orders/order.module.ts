@@ -5,9 +5,11 @@ import { User } from 'src/users/User.entity';
 import { Order } from './Order.entity';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
+import { Cart } from 'src/cart/Cart.entity';
+import { OrderItem } from './orderItem.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, Lego, User])],
+  imports: [TypeOrmModule.forFeature([Order, Lego, User, Cart, OrderItem])],
   controllers: [OrderController],
   providers: [OrderService],
 })
