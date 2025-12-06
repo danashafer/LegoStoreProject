@@ -2,7 +2,6 @@ import { AxiosResponse } from "axios";
 import { Lego, LoginInfo, Order, User } from "../utils/types";
 import axiosInstance from "./axiosInstance";
 
-
 // const axiosInstance = axios.create({
 //   baseURL: "http://localhost:3000",
 // });
@@ -39,6 +38,8 @@ export default {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
+      signUp: (username: string, email: string, password: string) =>
+        axiosInstance.post("/auth/register", { username, email, password }),
     };
   },
 
@@ -74,8 +75,8 @@ export default {
           },
         }),
       placeOrder: (): Promise<AxiosResponse<void>> =>
-        axiosInstance.post("orders", null , {
-           headers: {
+        axiosInstance.post("orders", null, {
+          headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
