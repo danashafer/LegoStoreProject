@@ -12,8 +12,9 @@ export const Cart = () => {
 
   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
     await api.carts().deleteLegoFromCart(legoToDeleteId);
-    setLegosInCart((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
-
+    setLegosInCart((prev) =>
+      prev.filter((lego) => lego.legoId !== legoToDeleteId)
+    );
   };
 
   useEffect(() => {
@@ -59,20 +60,9 @@ export const Cart = () => {
               ))}
             </div>
 
-            {/* <img
-              src=""
-              alt=""
-              className="rounded-circle m-2 border border-seconsary"
-              style={{ height: 200, width: 200 }}
-            />
-            <p className="fw-bold">user name</p>
-            <p>{user?.email}</p>
-
-            <div className="bg-secondary w-25 position-absolute start-50 translate-middle mt-3g rounded ">
-              <p> view order history</p>
-            </div>
-
-            <i className="bi bi-clock-history"></i> */}
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }}>
+              place order
+            </button>
           </div>
         </div>
       </div>

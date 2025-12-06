@@ -15,10 +15,10 @@ export class Order {
   @Column()
   status: 'pending' | 'paid' | 'shipped' | 'completed' | 'canceled';
 
-  @Column()
+  @Column({ name: 'user_id' })
   userId: number;
 
-  @Column()
+  @Column({ name: 'created_at' })
   createdAt: Date;
 
   @ManyToMany(() => Lego, {
