@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lego } from 'src/lego/Lego.entity';
 // import { Param } from '@nestjs/common';
@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Order } from './Order.entity';
 import { Cart } from 'src/cart/Cart.entity';
 import { OrderItem } from './orderItem.entity';
+import { OrderStatus } from './orderStatus.enum';
 
 @Injectable()
 export class OrderService {
@@ -82,21 +83,14 @@ export class OrderService {
     return allOrders;
   }
 
-  //   async deleteLegoFromOrder(userId: number, legoId: number): Promise<void> {
-  //     const order = await this.orderRepository.findOne({
-  //       where: { userId },
-  //       relations: ['legos'],
-  //     });
+  async updateStatus(orderId: number, status: OrderStatus) {
+    const order = await this.orderRepository.findOneBy({ orderId });
 
-  //     if (!order) {
-  //       // no order, nothing to remove
-  //       return;
-  //     }
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
 
-  //     // filter out the lego
-  //     order.legos = order.legos.filter((item) => item.legoId !== legoId);
-
-  //     // save updated order
-  //     await this.orderRepository.save(order);
-  //   }
+    order.status = status;
+    return this.orderRepository.save(order);
+  }
 }

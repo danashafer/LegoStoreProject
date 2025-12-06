@@ -7,7 +7,11 @@ interface OrderHistoryItem {
   onChangeStatus?: (orderId: number, newStatus: OrderStatus) => void;
 }
 
-export const OrderHistoryItem: FC<OrderHistoryItem> = ({ order, canEditStatus, onChangeStatus }) => {
+export const OrderHistoryItem: FC<OrderHistoryItem> = ({
+  order,
+  canEditStatus,
+  onChangeStatus,
+}) => {
   console.log(order);
   console.log(order.orderId);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,20 +42,20 @@ export const OrderHistoryItem: FC<OrderHistoryItem> = ({ order, canEditStatus, o
           <span style={{ fontWeight: 600 }}>Status:</span>
           <span style={{ marginLeft: 6 }}>{order.status}</span>
         </div>
-        canEditStatus && onChangeStatus?(
-        <select
-          value={order.status}
-          onChange={(e) =>
-            onChangeStatus(order.orderId, e.target.value as OrderStatus)
-          }
-        >
-          <option value="pending">pending</option>
-          <option value="processing">processing</option>
-          <option value="shipped">shipped</option>
-          <option value="delivered">delivered</option>
-          <option value="canceled">canceled</option>
-        </select>
-        )
+        {canEditStatus && onChangeStatus && (
+          <select
+            value={order.status}
+            onChange={(e) =>
+              onChangeStatus(order.orderId, e.target.value as OrderStatus)
+            }
+          >
+            <option value="pending">pending</option>
+            <option value="processing">processing</option>
+            <option value="shipped">shipped</option>
+            <option value="delivered">delivered</option>
+            <option value="canceled">canceled</option>
+          </select>
+        )}
         {/* Bottom row: Price */}
         <div
           className="d-flex justify-content-end"

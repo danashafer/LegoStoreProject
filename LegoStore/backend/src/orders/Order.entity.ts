@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { OrderItem } from './orderItem.entity';
+import { OrderStatus } from './orderStatus.enum';
 
 @Entity('orders')
 export class Order {
@@ -7,7 +8,7 @@ export class Order {
   orderId: number;
 
   @Column()
-  status: 'pending' | 'paid' | 'shipped' | 'completed' | 'canceled';
+  status: OrderStatus;
 
   @Column({ name: 'user_id' })
   userId: number;

@@ -1,17 +1,19 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
-import { Lego } from 'src/lego/Lego.entity';
 import { OrderService } from './order.service';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
+import { OrderStatus } from './orderStatus.enum';
 
 @UseGuards(JwtAuthGuard)
 @Controller('orders')
@@ -29,22 +31,13 @@ export class OrderController {
     return await this.orderService.createOrderFromCart(req.user.id);
   }
 
-  //   @UseGuards(JwtAuthGuard)
-  //   @Post('/:legoId')
-  //   async addNewLegoToOrder(
-  //     @Req() req,
-  //     @Param('legoId', ParseIntPipe) legoId: number,
-  //   ): Promise<void> {
-  //     console.log('adding to order');
-  //     await this.orderService.addNewLegoToOrder(req.user.id, legoId);
-  //   }
-
-  //   @UseGuards(JwtAuthGuard)
-  //   @Delete('/:legoId')
-  //   deleteLegoFromOrder(
-  //     @Req() req,
-  //     @Param('legoId', ParseIntPipe) legoId: number,
-  //   ): Promise<void> {
-  //     return this.orderService.deleteLegoFromOrder(req.user.id, legoId);
-  //   }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Patch(':id/status')
+  updateStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status') status: OrderStatus,
+  ) {
+    return this.orderService.updateStatus(id, status);
+  }
 }
