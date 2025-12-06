@@ -63,14 +63,20 @@ export default {
     };
   },
 
-  orders(){
-    return{
-      getOrders: (): Promise<AxiosResponse<Order[]>> => 
-        axiosInstance.get('orders', { 
+  orders() {
+    return {
+      getOrders: (): Promise<AxiosResponse<Order[]>> =>
+        axiosInstance.get("orders", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        } )
-    }
-  }
+        }),
+      placeOrder: (): Promise<AxiosResponse<void>> =>
+        axiosInstance.post("orders", null , {
+           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }),
+    };
+  },
 };

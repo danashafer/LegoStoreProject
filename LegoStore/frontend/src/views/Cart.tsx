@@ -16,6 +16,11 @@ export const Cart = () => {
       prev.filter((lego) => lego.legoId !== legoToDeleteId)
     );
   };
+  
+  const handlePlaceOrder = async() => {
+    await api.orders().placeOrder();
+    setLegosInCart([]);
+  }
 
   useEffect(() => {
     if (!user) {
@@ -63,7 +68,7 @@ export const Cart = () => {
               ))}
             </div>
 
-            <button className="btn" style={{ backgroundColor: "#ffcce1" }}>
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={handlePlaceOrder}>
               place order
             </button>
           </div>
