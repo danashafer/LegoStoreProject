@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Lego, LoginInfo, User } from "../utils/types";
+import { Lego, LoginInfo, Order, User } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
@@ -62,4 +62,15 @@ export default {
         }),
     };
   },
+
+  orders(){
+    return{
+      getOrders: (): Promise<AxiosResponse<Order[]>> => 
+        axiosInstance.get('orders', { 
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        } )
+    }
+  }
 };

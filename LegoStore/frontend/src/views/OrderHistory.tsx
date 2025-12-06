@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/User";
 import { useNavigate } from "react-router-dom";
-import { Lego } from "../utils/types";
+import { Lego, Order } from "../utils/types";
 import api from "../api";
 import { CartItem } from "../components/CartItem";
 
 export const OrderHistory = () => {
   const { user } = useUser();
   const navigate = useNavigate();
-  const [legosInCart, setLegosInCart] = useState<Lego[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
-    await api.carts().deleteLegoFromCart(legoToDeleteId);
-    setLegosInCart((prev) =>
-      prev.filter((lego) => lego.legoId !== legoToDeleteId)
-    );
-  };
+//   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
+//     await api.carts().deleteLegoFromCart(legoToDeleteId);
+//     setLegosInCart((prev) =>
+//       prev.filter((lego) => lego.legoId !== legoToDeleteId)
+//     );
+//   };
 
   useEffect(() => {
     if (!user) {
@@ -25,18 +25,17 @@ export const OrderHistory = () => {
   }, [user, navigate]);
 
   useEffect(() => {
-    const getLegosInCart = async () => {
-      console.log(user?.userId);
-      const res = await api.carts().getUserCart();
+    const getOrders = async () => {
+      const res = await api.orders().getOrders();
 
-      setLegosInCart(res.data);
-      console.log(legosInCart);
+      setOrders(res.data);
+      console.log(orders);
     };
 
-    getLegosInCart();
+    getOrders();
   }, []);
 
-  console.log(legosInCart);
+  console.log(orders);
   console.log(localStorage.getItem("token"));
 
   return (
@@ -50,7 +49,7 @@ export const OrderHistory = () => {
           />
           <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3">
             <h1> Order History</h1>
-            <div>
+            {/* <div>
               {legosInCart.map((item) => (
                 <CartItem
                   key={item.legoId}
@@ -62,7 +61,7 @@ export const OrderHistory = () => {
 
             <button className="btn" style={{ backgroundColor: "#ffcce1" }}>
               place order
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -7,14 +7,35 @@ export interface Lego {
   categoryId: number;
 }
 
-export interface User{
+export interface User {
   userId: number;
   username: string;
   email: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
 }
 
 export interface LoginInfo {
   id: number;
   token: string;
+}
+
+export interface OrderItem {
+  orderItemId: number;
+  quantity: number;
+  lego: Lego;
+}
+
+export interface Order {
+  orderId: number;
+  status: orderStatus;
+  createdAt: string;
+  items: OrderItem[];
+}
+
+enum orderStatus {
+  "pending",
+  "paid",
+  "shipped",
+  "completed",
+  "canceled",
 }
