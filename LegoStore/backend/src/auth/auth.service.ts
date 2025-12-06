@@ -10,9 +10,11 @@ import { UserService } from 'src/users/user.service';
 import { User } from 'src/users/User.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
+  private googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
@@ -69,5 +71,47 @@ export class AuthService {
     };
 
     return this.jwtService.sign(payload);
+  }
+
+  async loginWithGoogle(idToken: string) {
+    const ticket = await this.googleClient.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload || !payload.email) {
+      throw new BadRequestException('Google login failed');
+    }
+
+    const email = payload.email;
+    const username = payload.name ?? email.split('@')[0];
+
+    let user = await this.userService.findByEmail(email);
+
+    if (!user) {
+      user = await this.userService.create({
+        username,
+        email,
+        password: '',
+        role: 'user',
+      });
+    }
+
+    const jwtPayload: AuthJwtPayload = {
+      sub: user.userId,
+      role: user.role,
+    };
+
+    const token = this.jwtService.sign(jwtPayload);
+
+    return {
+      id: user.userId,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      token,
+    };
   }
 }

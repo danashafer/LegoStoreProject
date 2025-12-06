@@ -48,4 +48,9 @@ export class AuthController {
       token,
     };
   }
+
+  @Post('google')
+  async googleLogin(@Body('idToken') idToken: string) {
+    return this.authService.loginWithGoogle(idToken);
+  }
 }
