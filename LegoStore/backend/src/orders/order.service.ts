@@ -76,6 +76,11 @@ export class OrderService {
 
     return savedOrder;
   }
+  async getAllOrders(): Promise<Order[]> {
+    const allOrders: Order[] = await this.orderRepository.find();
+
+    return allOrders;
+  }
 
   //   async deleteLegoFromOrder(userId: number, legoId: number): Promise<void> {
   //     const order = await this.orderRepository.findOne({
