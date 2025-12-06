@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { Lego } from 'src/lego/Lego.entity';
-import { CartService } from 'src/cart/cart.service';
+import { OrderService } from './order.service';
 
 @Controller('orders')
 export class OrderController {
@@ -30,7 +30,7 @@ export class OrderController {
     @Req() req,
     @Param('legoId', ParseIntPipe) legoId: number,
   ): Promise<void> {
-    console.log('adding to cart');
+    console.log('adding to order');
     await this.orderService.addNewLegoToOrder(req.user.id, legoId);
   }
 
