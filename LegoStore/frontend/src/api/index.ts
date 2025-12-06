@@ -40,6 +40,8 @@ export default {
         }),
       signUp: (username: string, email: string, password: string) =>
         axiosInstance.post("/auth/register", { username, email, password }),
+      loginWithGoogle: (idToken: string) =>
+        axiosInstance.post("/auth/google", { idToken }),
     };
   },
 

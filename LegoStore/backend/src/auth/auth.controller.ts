@@ -27,12 +27,6 @@ export class AuthController {
       token,
     };
   }
-  //   @Post('login')
-  //   async login(@Request() req) {
-  //     console.log('entered auth controller');
-  //     const token = this.authService.login(req.user.userId);
-  //     return { id: req.user.userId, token };
-  //   }
 
   @Post('register')
   async register(@Body() dto: CreateUserDto) {

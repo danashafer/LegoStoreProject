@@ -92,6 +92,7 @@
 
 import { FC, useState, FormEvent } from "react";
 import api from "../../api";
+import { GoogleLogin } from "@react-oauth/google";
 
 type AuthMode = "login" | "signup";
 
@@ -228,7 +229,6 @@ export const AuthPopup: FC<AuthPopupProps> = ({
               />
             </div>
           )}
-
           <div className="form-group mb-3">
             <label>Email</label>
             <input
@@ -239,7 +239,6 @@ export const AuthPopup: FC<AuthPopupProps> = ({
               required
             />
           </div>
-
           <div className="form-group mb-3">
             <label>Password</label>
             <input
@@ -250,10 +249,42 @@ export const AuthPopup: FC<AuthPopupProps> = ({
               required
             />
           </div>
-
           <button type="submit" className="btn btn-primary w-100">
             {mode === "login" ? "Login" : "Create account"}
           </button>
+          <div
+            style={{ display: "flex", alignItems: "center", margin: "12px 0" }}
+          >
+            {" "}
+            <div style={{ flex: 1, height: 1, backgroundColor: "#ddd" }} />{" "}
+            <span style={{ margin: "0 8px", fontSize: 12, color: "#666" }}>
+              {" "}
+              or{" "}
+            </span>{" "}
+            <div style={{ flex: 1, height: 1, backgroundColor: "#ddd" }} />{" "}
+          </div>{" "}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {" "}
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const idToken = credentialResponse.credential;
+                  if (!idToken) return;
+
+                  const res = await api.users().loginWithGoogle(idToken);
+
+                  onAuthSuccess(res.data);
+                  resetForm();
+                  onClose();
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+              onError={() => {
+                console.log("Google Login failed");
+              }}
+            />
+          </div>
         </form>
       </div>
     </div>
