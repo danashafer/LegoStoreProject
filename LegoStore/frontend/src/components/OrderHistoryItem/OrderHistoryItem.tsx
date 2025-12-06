@@ -1,13 +1,11 @@
 import { FC, useState } from "react";
-import { Lego, Order } from "../../utils/types";
-import { useUser } from "../../context/User";
+import { Order } from "../../utils/types";
 
 interface OrderHistoryItem {
   order: Order;
 }
 
 export const OrderHistoryItem: FC<OrderHistoryItem> = ({ order }) => {
-  const { user } = useUser();
   console.log(order);
   console.log(order.orderId);
   const [isOpen, setIsOpen] = useState(false)

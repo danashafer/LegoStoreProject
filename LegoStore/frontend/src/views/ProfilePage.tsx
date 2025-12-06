@@ -30,7 +30,7 @@ export const Profile = () => {
               className="rounded-circle m-2 border border-seconsary"
               style={{ height: 200, width: 200 }}
             />
-            <p className="fw-bold">user name</p>
+            <p className="fw-bold">{user?.username}</p>
             <p>{user?.email}</p>
 
             <button
