@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './modules/user.module';
-import { LegoModule } from './modules/lego.module';
+import { UserModule } from './users/user.module';
+import { LegoModule } from './lego/lego.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
-import { User } from './entities/User.entity';
-import { Lego } from './entities/Lego.entity';
-import { Cart } from './entities/Cart.entity';
-import { CartModule } from './modules/cart.module';
+import { User } from './users/User.entity';
+import { Lego } from './lego/Lego.entity';
+import { Cart } from './cart/Cart.entity';
+import { CartModule } from './cart/cart.module';
+import { OrderModule } from './orders/order.module';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -37,6 +38,7 @@ import { CartModule } from './modules/cart.module';
     AuthModule,
     AdminModule,
     CartModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

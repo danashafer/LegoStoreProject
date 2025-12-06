@@ -59,12 +59,6 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              {" "}
-              <label>dont have an account?</label>
-              <button className="btn btn-secondary">Sign up</button>
-            </div>
-
-            <div className="form-group">
               <label>set name</label>
               <input
                 type="text"
@@ -109,9 +103,10 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 }
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn" style={{ backgroundColor: "#ffcce1" }}>
               submit
             </button>
+             
           </form>
         </div>
       </div>

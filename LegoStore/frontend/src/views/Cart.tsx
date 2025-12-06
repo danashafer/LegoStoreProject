@@ -12,9 +12,15 @@ export const Cart = () => {
 
   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
     await api.carts().deleteLegoFromCart(legoToDeleteId);
-    setLegosInCart((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
-
+    setLegosInCart((prev) =>
+      prev.filter((lego) => lego.legoId !== legoToDeleteId)
+    );
   };
+  
+  const handlePlaceOrder = async() => {
+    await api.orders().placeOrder();
+    setLegosInCart([]);
+  }
 
   useEffect(() => {
     if (!user) {
@@ -47,7 +53,10 @@ export const Cart = () => {
             alt=""
             className="w-100"
           />
-          <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3">
+          <div
+            className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3"
+            style={{ overflowY: "auto" }}
+          >
             <h1> your cart</h1>
             <div>
               {legosInCart.map((item) => (
@@ -59,20 +68,9 @@ export const Cart = () => {
               ))}
             </div>
 
-            {/* <img
-              src=""
-              alt=""
-              className="rounded-circle m-2 border border-seconsary"
-              style={{ height: 200, width: 200 }}
-            />
-            <p className="fw-bold">user name</p>
-            <p>{user?.email}</p>
-
-            <div className="bg-secondary w-25 position-absolute start-50 translate-middle mt-3g rounded ">
-              <p> view order history</p>
-            </div>
-
-            <i className="bi bi-clock-history"></i> */}
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={handlePlaceOrder}>
+              place order
+            </button>
           </div>
         </div>
       </div>
