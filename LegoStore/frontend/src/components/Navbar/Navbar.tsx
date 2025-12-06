@@ -6,13 +6,19 @@ import { LoginPopup } from "../LoginPopup";
 import { useLoginUser } from "../../api/hooks/useLogin.ts";
 
 export const Navbar: FC = () => {
-  const { user } = useUser();
+  const { user, resetUser } = useUser();
   const navigate = useNavigate();
 
-  const { loginUser, isLoading, error } = useLoginUser()
+  const { loginUser, isLoading, error } = useLoginUser();
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [afterLoginPath, setAfterLoginPath] = useState<string | null>(null);
+
+  const handleLogout = () => {
+  resetUser();
+  navigate("/");
+  console.log(user)
+};
 
   const openLogin = (path: string | null = null) => {
     setAfterLoginPath(path);
@@ -48,7 +54,7 @@ export const Navbar: FC = () => {
       navigate(afterLoginPath);
       setAfterLoginPath(null);
     }
-    console.log("user logging in")
+    console.log("user logging in");
 
     loginUser(email, password);
     console.log(user);
@@ -69,7 +75,7 @@ export const Navbar: FC = () => {
                 <NavLink
                   to={route.path}
                   className={({ isActive }) =>
-                    [isActive ? "active" : "text-light", "nav-link"].join(" ")
+                    [isActive ? "active text-light" : "text-dark", "nav-link"].join(" ")
                   }
                   onClick={(e) => {
                     if (
@@ -84,14 +90,17 @@ export const Navbar: FC = () => {
                 </NavLink>
               </li>
             ))}
+            
 
           {!user && (
+            
             <li className="nav-link" key="login">
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  [isActive ? "active" : "text-light", "nav-link"].join(" ")
+                  [isActive ? "active btn" : "text-dark btn", "nav-link btn"].join(" ")
                 }
+                style={{ backgroundColor: "#ffcce1" }}
                 onClick={handleLoginNavClick}
               >
                 login
@@ -100,9 +109,12 @@ export const Navbar: FC = () => {
           )}
           {user && (
             <li className="nav-link" key="login">
-              <p>{user.id}</p>
+              <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           )}
+         
         </ul>
       </nav>
 

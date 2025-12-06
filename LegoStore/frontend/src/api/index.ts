@@ -1,9 +1,11 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { Lego, LoginInfo, Order, User } from "../utils/types";
+import axiosInstance from "./axiosInstance";
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
-});
+
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:3000",
+// });
 
 export default {
   legos() {
