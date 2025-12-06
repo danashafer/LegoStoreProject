@@ -3,6 +3,7 @@ import { Home } from "../views/Home";
 import Layout from "../views/Layout";
 import { Cart } from "../views/Cart.tsx";
 import { Profile } from "../views/ProfilePage.tsx";
+import { OrderHistory } from "../views/OrderHistory.tsx";
 
 export interface Page {
   path: string;
@@ -31,6 +32,14 @@ export const routes: Page[] = [
     name: "Profile",
     isShown: true,
   },
+
+  {
+    path: "/order-history",
+    element: <OrderHistory />,
+    name: "Order Hoistory",
+    isShown: false,
+  },
+  
 ];
 
 export const paths = [

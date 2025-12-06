@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../context/User";
 import { useEffect } from "react";
 
@@ -33,11 +33,16 @@ export const Profile = () => {
             <p className="fw-bold">user name</p>
             <p>{user?.email}</p>
 
-            <div className="bg-secondary w-25 position-absolute start-50 translate-middle mt-3g rounded ">
-              <p> view order history</p>
-            </div>
-
-            <i className="bi bi-clock-history"></i>
+            <button
+              type="submit"
+              className="btn"
+              style={{ backgroundColor: "#ffcce1" }}
+            >
+               <NavLink to="/order-history">
+                view order history
+              </NavLink>
+              <i className="bi bi-clock-history"></i>
+            </button>
           </div>
         </div>
       </div>
