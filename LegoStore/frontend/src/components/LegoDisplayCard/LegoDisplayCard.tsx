@@ -12,6 +12,7 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, 
   const { user } = useUser();
   console.log(lego);
   console.log(lego.legoId);
+  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${lego.imageKey}`
 
   return (
     <div
@@ -24,7 +25,8 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, 
     >
       <img
         className="card-img-top"
-        src="..."
+        src={imageUrl}
+        alt={lego.name}
         style={{ width: 180, height: 180, borderRadius: 10 }}
       ></img>
       <div className="card-body">

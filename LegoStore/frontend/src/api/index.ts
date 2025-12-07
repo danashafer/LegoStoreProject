@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import {
+  CreateLegoDto,
   Lego,
   LoginInfo,
   Order,
@@ -9,15 +10,12 @@ import {
 } from "../utils/types";
 import axiosInstance from "./axiosInstance";
 
-// const axiosInstance = axios.create({
-//   baseURL: "http://localhost:3000",
-// });
 
 export default {
   legos() {
     return {
       getAll: (): Promise<AxiosResponse<Lego[]>> => axiosInstance.get("legos"),
-      addNewLego: (lego: Lego): Promise<AxiosResponse<Lego>> =>
+      addNewLego: (lego: CreateLegoDto): Promise<AxiosResponse<Lego>> =>
         axiosInstance.post("admin/add-new-lego", lego, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -100,10 +98,14 @@ export default {
   },
   upload() {
     return {
-      getLegoImageUploadUrl: (): Promise<AxiosResponse<UploadUrlResponse>> =>
+      getLegoImageUploadUrl: (
+        legoId: string,
+        fileName: string,
+        fileType: string
+      ): Promise<AxiosResponse<UploadUrlResponse>> =>
         axiosInstance.post(
           "uploads/lego-image",
-          { legoId: String , fileName: String, fileType: String },
+          { legoId, fileName, fileType },
           {
             headers: {
               "Content-Type": "application/json",
@@ -111,6 +113,7 @@ export default {
             },
           }
         ),
+          
     };
   },
 };
