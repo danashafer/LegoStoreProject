@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Lego } from 'src/lego/Lego.entity';
 // import { Param } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { CreateLegoDto } from './dto/create-lego.dto';
 
 @Injectable()
 export class LegoService {
@@ -17,11 +18,15 @@ export class LegoService {
     return allLegos;
   }
 
-  async addNewLego(lego: Lego): Promise<Lego> {
-    console.log('inside lego service, saving lego:');
-    console.log(lego);
-    const addedLego = await this.legoRepository.save(lego);
-    return addedLego;
+  async addNewLego(dto: CreateLegoDto): Promise<Lego> {
+    const lego = this.legoRepository.create({
+      name: dto.name,
+      description: dto.description,
+      price: dto.price,
+      imageKey: dto.imageKey,
+    });
+
+    return this.legoRepository.save(lego);
   }
 
   async deleteLego(id: number): Promise<void> {

@@ -1,9 +1,10 @@
 import api from "../api/index.ts";
 import { useEffect, useState } from "react";
-import { Lego } from "../utils/types.ts";
+import { Lego, NewLegoFormData } from "../utils/types.ts";
 import { LegoDisplayBar } from "../components/LegoDisplayBar/LegoDisplayBar.tsx";
 import { useUser } from "../context/User/useUser.ts";
 import { NewLegoForm } from "../components/NewLegoForm/NewLegoForm.tsx";
+import { v4 as uuidv4 } from "uuid";
 
 export const Home = () => {
   const [legos, setLegos] = useState<Lego[]>([]);
@@ -18,9 +19,42 @@ export const Home = () => {
     getLegosForDisplay();
   }, []);
 
-  const handleAddNewLego = async (newLego: Lego) => {
+  const handleAddNewLego = async (newLego: NewLegoFormData) => {
     console.log("adding lego set in home");
-    const response = await api.legos().addNewLego(newLego);
+    if (!newLego.file) {
+      alert("Select an image first");
+      return;
+    }
+
+    const legoId = uuidv4();
+    const fileName = newLego.file.name;
+    const fileType = newLego.file.type || "image/png";
+
+    const uploadInfo = await api
+      .upload()
+      .getLegoImageUploadUrl(legoId, fileName, fileType);
+    // const response = await api.legos().addNewLego(newLego);
+
+    const uploadRes = await fetch(uploadInfo.data.uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": fileType || "image/png",
+      },
+      body: newLego.file,
+    });
+
+    if (!uploadRes.ok) {
+      throw new Error("Upload to S3 failed");
+    }
+
+    const response = await api
+      .legos()
+      .addNewLego({
+        name: newLego.name,
+        description: newLego.description,
+        price: newLego.price,
+        imageKey: uploadInfo.data.key,
+      });
 
     setLegos((prev) => [...prev, response.data]);
   };

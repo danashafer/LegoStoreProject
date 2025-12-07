@@ -13,9 +13,7 @@ export class Lego {
 
   @Column()
   price: number;
+
+  @Column({ name: 'image_key', nullable: true })
+  imageKey: string;
 }
-// @ManyToMany(() => Cart, (cart: Cart) => cart.legos, {
-//   onDelete: 'CASCADE',
-//   onUpdate: 'CASCADE',
-// })
-// carts: Cart[];

@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
-import { Lego } from "../../utils/types";
+import { CreateLegoDto, Lego, NewLegoFormData } from "../../utils/types";
 
 type NewLegoFormProps = {
   //   isOpen: boolean;
   onClose: () => void;
-  onSubmitAddNewSet: (newLego: Lego) => Promise<void> | void;
+  onSubmitAddNewSet: (newLego: NewLegoFormData) => Promise<void> | void;
 };
 
 export const NewLegoForm: FC<NewLegoFormProps> = ({
@@ -13,23 +13,38 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
 }) => {
   //   if (!isOpen) return null;
 
-  const [newLego, setNewLego] = useState({
+  const [newLego, setNewLego] = useState<NewLegoFormData>({
     name: "",
     price: 0,
     description: "",
-    imageUrl: "",
+    file: null,
   });
-
-  // const [setName, setSetName] = useState<string>("");
-  // const [description, setDescription] = useState<string>("");
-  // const [price, setPrice] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submiting");
-    await onSubmitAddNewSet(newLego);
-    onClose();
+    setLoading(true);
+    try {
+      await onSubmitAddNewSet(newLego);
+      onClose();
+    } catch (err) {
+      console.error(err);
+      alert("Error while creating lego");
+    } finally {
+      setLoading(false);
+    }
+    // console.log("submiting");
+    // await onSubmitAddNewSet(newLego);
+    // onClose();
     //   await onLogin(email, password);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] || null;
+    setNewLego((prev) => ({
+      ...prev,
+      file: f,
+    }));
   };
 
   return (
@@ -103,10 +118,23 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 }
               />
             </div>
-            <button type="submit" className="btn" style={{ backgroundColor: "#ffcce1" }}>
+            <div>
+              <label>
+                Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="btn"
+              style={{ backgroundColor: "#ffcce1" }}
+            >
               submit
             </button>
-             
           </form>
         </div>
       </div>

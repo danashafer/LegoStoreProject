@@ -12,7 +12,7 @@ export const LegoDisplayBar: FC<LegoDisplayBarProps> = ({ legos, onDeleteSet, on
 
 
   return (
-    <div className="d-flex">
+    <div className="d-flex flex-wrap">
       {legos.map((item) => (
         <LegoDisplayCard key={item.legoId} lego={item} onDeleteSet={onDeleteSet} onAddToCart={onAddToCart}  />
       ))}

@@ -3,7 +3,7 @@ export interface Lego {
   name: string;
   description: string;
   price: number;
-  imageUrl: string;
+  imageKey: string;
   categoryId: number;
 }
 
@@ -40,3 +40,23 @@ export enum OrderStatus {
   "completed",
   "canceled",
 }
+
+export type UploadUrlResponse = {
+  uploadUrl: string;
+  key: string;
+  publicUrl: string;
+};
+
+export type CreateLegoDto = {
+  name: string;
+  description: string;
+  price: number;
+  imageKey: string;
+};
+
+export type NewLegoFormData = {
+  name: string;
+  description: string;
+  price: number;
+  file: File | null;
+};
