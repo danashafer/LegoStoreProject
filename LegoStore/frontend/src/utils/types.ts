@@ -27,13 +27,13 @@ export interface OrderItem {
 
 export interface Order {
   orderId: number;
-  status: orderStatus;
+  status: OrderStatus;
   createdAt: string;
   items: OrderItem[];
   totalPrice: number;
 }
 
-enum orderStatus {
+export enum OrderStatus {
   "pending",
   "paid",
   "shipped",

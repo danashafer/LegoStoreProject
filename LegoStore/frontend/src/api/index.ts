@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { Lego, LoginInfo, Order, User } from "../utils/types";
+import { Lego, LoginInfo, Order, OrderStatus, User } from "../utils/types";
 import axiosInstance from "./axiosInstance";
 
 // const axiosInstance = axios.create({
@@ -82,6 +82,13 @@ export default {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }),
+      getAllOrders: (): Promise<AxiosResponse<Order[]>> =>
+        axiosInstance.get("admin/orders"),
+      changeStatus: (
+        orderId: number,
+        newStatus: OrderStatus
+      ): Promise<AxiosResponse<void>> =>
+        axiosInstance.patch(`orders/${orderId}/status`, {status :newStatus}),
     };
   },
 };

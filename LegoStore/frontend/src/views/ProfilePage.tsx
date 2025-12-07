@@ -30,7 +30,7 @@ export const Profile = () => {
               className="rounded-circle m-2 border border-seconsary"
               style={{ height: 200, width: 200 }}
             />
-            <p className="fw-bold">user name</p>
+            <p className="fw-bold">{user?.username}</p>
             <p>{user?.email}</p>
 
             <button
@@ -43,6 +43,15 @@ export const Profile = () => {
               </NavLink>
               <i className="bi bi-clock-history"></i>
             </button>
+            {user?.role =="admin" && <button
+              type="submit"
+              className="btn"
+              style={{ backgroundColor: "#ffcce1" }}
+            >
+               <NavLink to="/admin-orders">
+                view all orders
+              </NavLink>
+            </button>}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lego } from 'src/lego/Lego.entity';
 // import { Param } from '@nestjs/common';
@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Order } from './Order.entity';
 import { Cart } from 'src/cart/Cart.entity';
 import { OrderItem } from './orderItem.entity';
+import { OrderStatus } from './orderStatus.enum';
 
 @Injectable()
 export class OrderService {
@@ -17,18 +18,6 @@ export class OrderService {
     @InjectRepository(Cart)
     private readonly cartRepository: Repository<Cart>,
   ) {}
-
-  //   async getByUserId(userId: number): Promise<Lego[]> {
-  //     const order = await this.orderRepository.findOne({
-  //       where: { userId },
-  //       relations: ['legos'],
-  //     });
-
-  //     if (!order) {
-  //       return [];
-  //     }
-  //     return order.legos ?? [];
-  //   }
 
   async getOrdersByUser(userId: number): Promise<Order[]> {
     const orders = await this.orderRepository.find({
@@ -54,7 +43,6 @@ export class OrderService {
       const item = new OrderItem();
       item.lego = lego;
       item.quantity = 1;
-      //   item.priceAtPurchase = String(lego.price);
       return item;
     });
 
@@ -76,22 +64,24 @@ export class OrderService {
 
     return savedOrder;
   }
+  async getAllOrders(): Promise<Order[]> {
+    const allOrders: Order[] = await this.orderRepository.find();
 
-  //   async deleteLegoFromOrder(userId: number, legoId: number): Promise<void> {
-  //     const order = await this.orderRepository.findOne({
-  //       where: { userId },
-  //       relations: ['legos'],
-  //     });
+    return allOrders;
+  }
 
-  //     if (!order) {
-  //       // no order, nothing to remove
-  //       return;
-  //     }
+  async updateStatus(orderId: number, status: OrderStatus) {
+    const order = await this.orderRepository.findOneBy({ orderId });
+    console.log('deleting order');
 
-  //     // filter out the lego
-  //     order.legos = order.legos.filter((item) => item.legoId !== legoId);
+    if (!order) {
+      console.log(' order not found');
 
-  //     // save updated order
-  //     await this.orderRepository.save(order);
-  //   }
+      throw new NotFoundException('Order not found');
+    }
+
+    order.status = status;
+    console.log(status);
+    return this.orderRepository.save(order);
+  }
 }
