@@ -19,18 +19,6 @@ export class OrderService {
     private readonly cartRepository: Repository<Cart>,
   ) {}
 
-  //   async getByUserId(userId: number): Promise<Lego[]> {
-  //     const order = await this.orderRepository.findOne({
-  //       where: { userId },
-  //       relations: ['legos'],
-  //     });
-
-  //     if (!order) {
-  //       return [];
-  //     }
-  //     return order.legos ?? [];
-  //   }
-
   async getOrdersByUser(userId: number): Promise<Order[]> {
     const orders = await this.orderRepository.find({
       where: { userId },
@@ -55,7 +43,6 @@ export class OrderService {
       const item = new OrderItem();
       item.lego = lego;
       item.quantity = 1;
-      //   item.priceAtPurchase = String(lego.price);
       return item;
     });
 
@@ -85,12 +72,16 @@ export class OrderService {
 
   async updateStatus(orderId: number, status: OrderStatus) {
     const order = await this.orderRepository.findOneBy({ orderId });
+    console.log('deleting order');
 
     if (!order) {
+      console.log(' order not found');
+
       throw new NotFoundException('Order not found');
     }
 
     order.status = status;
+    console.log(status);
     return this.orderRepository.save(order);
   }
 }

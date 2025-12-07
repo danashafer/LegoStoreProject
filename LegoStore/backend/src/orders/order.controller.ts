@@ -38,6 +38,7 @@ export class OrderController {
     @Param('id', ParseIntPipe) id: number,
     @Body('status') status: OrderStatus,
   ) {
+    console.log(status);
     return this.orderService.updateStatus(id, status);
   }
 }

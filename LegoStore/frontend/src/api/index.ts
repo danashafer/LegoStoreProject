@@ -88,7 +88,7 @@ export default {
         orderId: number,
         newStatus: OrderStatus
       ): Promise<AxiosResponse<void>> =>
-        axiosInstance.patch(`orders/${orderId}/status`, newStatus),
+        axiosInstance.patch(`orders/${orderId}/status`, {status :newStatus}),
     };
   },
 };
