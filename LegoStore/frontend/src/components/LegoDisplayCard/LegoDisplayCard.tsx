@@ -18,7 +18,7 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, 
     <div
       className="card m-3 p-2"
       style={{
-        width: 200,
+        width: 220,
         backgroundColor: "#FFEDF4",
         border: "3px solid #ffcce1",
       }}
@@ -27,13 +27,13 @@ export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, 
         className="card-img-top"
         src={imageUrl}
         alt={lego.name}
-        style={{ width: 180, height: 180, borderRadius: 10 }}
+        style={{ width: 200, height: 200, borderRadius: 10 }}
       ></img>
       <div className="card-body">
         <h5 className="card-title">{lego.name}</h5>
         <p className="card-text">{lego.description}</p>
         <p className="card-text">{lego.price}$</p>
-        <div className="row">
+        <div className="d-flex align-items-center gap-1">
           {user && (
             <a href="#" className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={() => onAddToCart(lego.legoId)}>
               add to cart

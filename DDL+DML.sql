@@ -109,8 +109,8 @@ VALUES ('ninja', 'ninjago@gmail.com', '$2a$12$k0.7Sp5ab/cjdyrn6DzqNOEM2g.87PDaxf
 
 INSERT INTO legostore.legos (name, description, price, image_key)
 VALUES 
-('Cat', 'cute', 2378, 'legos/b5f0322f-3397-4a95-83a4-b280b259c131/1765128416106-catLego.jpg')
-('Flowers', 'pretty', 678, 'legos/91995bbf-4c22-4794-846a-2ade970fb79c/1765128568586-flowersLego.jpg')
+('Cat', 'cute', 2378, 'legos/b5f0322f-3397-4a95-83a4-b280b259c131/1765128416106-catLego.jpg'),
+('Flowers', 'pretty', 678, 'legos/91995bbf-4c22-4794-846a-2ade970fb79c/1765128568586-flowersLego.jpg'),
 ('Bloom Fox', 'small fox with flower tail and bright ear accents', 16, 'legos/f35f5724-0fa2-41ab-b50f-b00256df2464/1765129223322-foxLego.jpg'),
 ('Mini Turtle Pond', 'tiny turtle with a round shell beside a leaf pond piece', 14, 'legos/d7ac0dfb-0895-442d-8959-dbf006fa08cc/1765128771531-turtleLego.jpg'),
 ('Petal Bunny', 'white bunny with pastel flower crown and carrot tile', 15,'legos/f2fcea07-e24e-4f3c-8360-60881792c5ac/1765129237560-bunnyLego.jpg'),
@@ -122,10 +122,13 @@ VALUES
 --('Pastel Garden Set', 'three small flowers with curved petals and tiny pot pieces', 11),
 ('Mini Panda Snack', 'panda holding a bamboo piece with a small ground tile', 15, 'legos/b6e4a049-ea49-47de-be7a-d5944512e940/1765129152177-pandaLego.jpg'),
 ('Blossom Bird', 'colorful bird with wing tiles and a short branch stand', 13 , 'legos/7cf70779-73df-4871-a5ee-b03c20c8ced9/1765129167808-birdLego.jpg'),
-('Pocket Cactus Trio', 'three small cactus builds with different shapes and tiny pots', 10, 'legos/2a5957d8-04f2-441a-b01d-1a8cc59b0285/1765129257754-cactusLego.jpg'),
+('Pocket Cactus Trio', 'three small cactus builds with different shapes and tiny pots', 10, 'legos/2a5957d8-04f2-441a-b01d-1a8cc59b0285/1765129257754-cactusLego.jpg');
 --('Cotton Tail Deer', 'small deer with soft edges and a mushroom tile base', 17),
 --('Koi Pond Tile', 'koi fish build with ripples on a blue rounded plate', 12),
-('Baby Penguin Slide', 'penguin figure on an ice slope with a snow tile', 14);
+--('Baby Penguin Slide', 'penguin figure on an ice slope with a snow tile', 14)
+
+
+
 
 
 
