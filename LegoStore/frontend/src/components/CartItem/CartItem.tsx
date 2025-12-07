@@ -7,13 +7,12 @@ interface CartItemProps {
   onDeleteLego: (id: number) => void;
 }
 
-export const CartItem: FC<CartItemProps> = ({
-  lego,
-  onDeleteLego,
-}) => {
+export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
   const { user } = useUser();
   console.log(lego);
   console.log(lego.legoId);
+
+  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${lego.imageKey}`;
 
   return (
     <div
@@ -26,7 +25,7 @@ export const CartItem: FC<CartItemProps> = ({
     >
       {/* Thumbnail */}
       <img
-        src={lego.imageUrl || "https://via.placeholder.com/70"}
+        src={imageUrl || "https://via.placeholder.com/70"}
         alt={lego.name}
         style={{
           width: "70px",
@@ -58,7 +57,7 @@ export const CartItem: FC<CartItemProps> = ({
         <button
           className="btn btn-sm"
           style={{ padding: "0 6px" }}
-        //   onClick={onDecrease}
+          //   onClick={onDecrease}
         >
           -
         </button>
@@ -68,7 +67,7 @@ export const CartItem: FC<CartItemProps> = ({
         <button
           className="btn btn-sm"
           style={{ padding: "0 6px" }}
-        //   onClick={onIncrease}
+          //   onClick={onIncrease}
         >
           +
         </button>
@@ -86,6 +85,5 @@ export const CartItem: FC<CartItemProps> = ({
       {/* Price */}
       <div style={{ fontWeight: 600 }}>{lego.price}$</div>
     </div>
-
   );
 };
