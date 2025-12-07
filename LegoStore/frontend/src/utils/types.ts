@@ -40,3 +40,9 @@ export enum OrderStatus {
   "completed",
   "canceled",
 }
+
+export type UploadUrlResponse = {
+  uploadUrl: string;
+  key: string;
+  publicUrl: string;
+};

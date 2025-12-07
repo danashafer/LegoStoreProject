@@ -1,5 +1,12 @@
 import { AxiosResponse } from "axios";
-import { Lego, LoginInfo, Order, OrderStatus, User } from "../utils/types";
+import {
+  Lego,
+  LoginInfo,
+  Order,
+  OrderStatus,
+  UploadUrlResponse,
+  User,
+} from "../utils/types";
 import axiosInstance from "./axiosInstance";
 
 // const axiosInstance = axios.create({
@@ -88,7 +95,22 @@ export default {
         orderId: number,
         newStatus: OrderStatus
       ): Promise<AxiosResponse<void>> =>
-        axiosInstance.patch(`orders/${orderId}/status`, {status :newStatus}),
+        axiosInstance.patch(`orders/${orderId}/status`, { status: newStatus }),
+    };
+  },
+  upload() {
+    return {
+      getLegoImageUploadUrl: (): Promise<AxiosResponse<UploadUrlResponse>> =>
+        axiosInstance.post(
+          "uploads/lego-image",
+          { legoId: String , fileName: String, fileType: String },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        ),
     };
   },
 };

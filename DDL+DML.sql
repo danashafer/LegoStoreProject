@@ -1,13 +1,21 @@
 DROP SCHEMA IF EXISTS legostore CASCADE;
 
+-- ALTER TYPE order_status ADD VALUE 'processing';
+
 CREATE SCHEMA legostore;
+
+-- CREATE TYPE role_type AS ENUM (
+--     'user',
+--     'admin'
+-- );
 
 -- USERS
 CREATE TABLE legostore.users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+	role role_type DEFAULT 'user'
 );
 
 --CATEGORIES
@@ -16,13 +24,13 @@ CREATE TABLE legostore.categories (
     category_name VARCHAR(100) NOT NULL UNIQUE
 );
 
--- PRODUCTS
+-- Legos
 CREATE TABLE legostore.legos (
     lego_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
-    image_url VARCHAR(255),
+    image_key VARCHAR(255),
     category_id INT,
     FOREIGN KEY (category_id) REFERENCES legostore.categories(category_id)
 );
@@ -39,16 +47,17 @@ CREATE TABLE legostore.cart_items (
     cart_id INT NOT NULL,
     lego_id INT NOT NULL,
     FOREIGN KEY (cart_id) REFERENCES legostore.carts(cart_id) ON DELETE CASCADE,
-    FOREIGN KEY (lego_id) REFERENCES legostore.legos(lego_id)
+    FOREIGN KEY (lego_id) REFERENCES legostore.legos(lego_id) ON DELETE CASCADE
+
 );
 
-CREATE TYPE order_status AS ENUM (
-    'pending',
-    'paid',
-    'shipped',
-    'completed',
-    'canceled'
-);
+-- CREATE TYPE order_status AS ENUM (
+--     'pending',
+--     'paid',
+--     'shipped',
+--     'completed',
+--     'canceled'
+-- );
 -- ORDERS
 CREATE TABLE legostore.orders (
     order_id SERIAL PRIMARY KEY,
@@ -63,10 +72,9 @@ CREATE TABLE legostore.order_items (
     order_item_id SERIAL PRIMARY KEY,
     order_id INT NOT NULL,
     lego_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price_each DECIMAL(10,2) NOT NULL,
+    quantity INT DEFAULT 1,
     FOREIGN KEY (order_id) REFERENCES legostore.orders(order_id) ON DELETE CASCADE,
-    FOREIGN KEY (lego_id) REFERENCES legostore.legos(lego_id)
+    FOREIGN KEY (lego_id) REFERENCES legostore.legos(lego_id) ON DELETE CASCADE
 );
 
 
@@ -81,3 +89,29 @@ CREATE TABLE legostore.reviews (
     FOREIGN KEY (user_id) REFERENCES legostore.users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (lego_id) REFERENCES legostore.legos(lego_id) ON DELETE CASCADE
 );
+
+
+--Enter USERS
+
+INSERT INTO legostore.users (username, email, password)
+VALUES ('theBuilder', 'builder@gmail.com', '$2a$12$Kn0DsLodlZf1oy2PY.BUgucWCz/tFU5EWKJF2cCou9GTFJslSNSNK'); 
+--password: LegoIsFun123
+
+INSERT INTO legostore.users (username, email, password, role)
+VALUES ('adimin', 'admin@gmail.com', '$2a$12$UezEjKIYWilrHdoDGoLaau9FMvHE8laqaNBzQU6gcgtD7Mb./Bpkq', 'admin');
+--password: 123456
+
+INSERT INTO legostore.users (username, email, password)
+VALUES ('ninja', 'ninjago@gmail.com', '$2a$12$k0.7Sp5ab/cjdyrn6DzqNOEM2g.87PDaxfJaO9DMXLfks/pHGiecm');
+--password: 654321
+
+--Enter Legos
+
+INSERT INTO legostore.legos (name, description, price)
+VALUES ('owl', 'smart owl', 15);
+
+
+
+--Enter 
+
+
