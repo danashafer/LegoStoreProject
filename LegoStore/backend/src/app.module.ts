@@ -10,6 +10,7 @@ import { Lego } from './lego/Lego.entity';
 import { Cart } from './cart/Cart.entity';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './orders/order.module';
+import { UploadModule } from './uploads/upload.module';
 // import { AppController } from './app.controller';
 // import { AppService } from './app.service';
 
@@ -39,6 +40,7 @@ import { OrderModule } from './orders/order.module';
     AdminModule,
     CartModule,
     OrderModule,
+    UploadModule,
   ],
 })
 export class AppModule {}
