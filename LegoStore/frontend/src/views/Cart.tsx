@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CartItemType, Lego } from "../utils/types";
 import api from "../api";
 import { CartItem } from "../components/CartItem";
+import toast from "react-hot-toast";
 
 export const Cart = () => {
   const { user } = useUser();
@@ -20,6 +21,7 @@ export const Cart = () => {
   const handlePlaceOrder = async () => {
     await api.orders().placeOrder();
     setItemsInCart([]);
+    toast.success("order placed")
   };
 
   useEffect(() => {
@@ -43,8 +45,11 @@ export const Cart = () => {
   }, []);
 
   const handleIncrease = async (legoId: number) => {
-    const res = await api.carts().addLegoToCart(legoId, 1);
-    setItemsInCart(res.data);
+    try {
+      const res = await api.carts().addLegoToCart(legoId, 1);
+      setItemsInCart(res.data);
+      
+    } catch (e) {}
   };
 
   const handleDecrease = async (legoId: number) => {
