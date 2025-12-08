@@ -53,4 +53,31 @@ export class UploadService {
       publicUrl,
     };
   }
+
+  async getUserAvatarUploadUrl(
+    userId: number,
+    fileName: string,
+    fileType: string,
+  ) {
+    const safeName = fileName.replace(/\s+/g, '-');
+    const key = `users/${userId}/avatar-${Date.now()}-${safeName}`;
+
+    const command = new PutObjectCommand({
+      Bucket: this.bucket,
+      Key: key,
+      ContentType: fileType,
+    });
+
+    const uploadUrl = await getSignedUrl(this.s3, command, {
+      expiresIn: 60 * 5,
+    });
+
+    const publicUrl = `https://${this.bucket}.s3.${this.region}.amazonaws.com/${key}`;
+
+    return {
+      uploadUrl,
+      key,
+      publicUrl,
+    };
+  }
 }
