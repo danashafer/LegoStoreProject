@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Req,
   Post,
   UseGuards,
   Body,
@@ -27,11 +26,9 @@ export class AdminController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  @Post('admin/add-new-lego')
+  @Post('admin/new-lego')
   async addNewLego(@Body() body: CreateLegoDto): Promise<Lego> {
     console.log('adding new lego');
-    console.log(body);
-
     const addedLego = await this.legoService.addNewLego(body);
 
     return addedLego;
@@ -39,10 +36,9 @@ export class AdminController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  @Delete('admin/delete-lego/:id')
+  @Delete('admin/lego/:id')
   async deleteLego(@Param('id', ParseIntPipe) id: number): Promise<void> {
     console.log('delening lego in controller' + id);
-    console.log(id);
 
     await this.legoService.deleteLego(id);
   }
