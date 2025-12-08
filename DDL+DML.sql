@@ -15,7 +15,9 @@ CREATE TABLE legostore.users (
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-	role role_type DEFAULT 'user'
+	role role_type DEFAULT 'user',
+	avatar_key VARCHAR(255)
+
 );
 
 --CATEGORIES

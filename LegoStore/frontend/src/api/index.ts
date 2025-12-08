@@ -79,6 +79,19 @@ export default {
             },
           }
         ),
+      getUserAvatarUploadUrl: (
+        fileName: string,
+        fileType: string
+      ): Promise<AxiosResponse<UploadUrlResponse>> =>
+        axiosInstance.post(
+          "uploads/user-avatar  ",
+          { fileName, fileType },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ),
     };
   },
 };
