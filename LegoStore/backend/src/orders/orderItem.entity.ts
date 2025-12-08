@@ -22,7 +22,7 @@ export class OrderItem {
   lego: Lego;
 
   @Column()
-  quantity: number;
+  amount: number;
 
   //   @Column({
   //     name: 'price_at_purchase',
