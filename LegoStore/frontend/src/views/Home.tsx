@@ -70,7 +70,7 @@ export const Home = () => {
   };
 
   const handleAddLegoToCart = async (legoToAddId: number) => {
-    await api.carts().addLegoToCart(legoToAddId);
+    await api.carts().addLegoToCart(legoToAddId, 1);
   };
 
   const handleSearch = (searchedInput: string) => {
