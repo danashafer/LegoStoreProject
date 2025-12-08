@@ -62,7 +62,7 @@ export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
           -
         </button>
 
-        {/* <span style={{ padding: "0 8px" }}>{quantity}</span> */}
+        <span style={{ padding: "0 8px" }}>{amount}</span>
 
         <button
           className="btn btn-sm"

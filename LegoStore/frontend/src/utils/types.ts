@@ -63,3 +63,8 @@ export type NewLegoFormData = {
   amount: number;
   file: File | null;
 };
+
+export type CartItemType = {
+  lego: Lego;
+  amount: number;
+}
