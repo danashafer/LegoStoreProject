@@ -58,11 +58,11 @@ export const Cart = () => {
   return (
     <>
       <div className="d-flex justify-content-center">
-        <div className=" position-relative  " style={{ width: 1700, height:650}}>
+        <div className=" position-relative  " style={{ width: 1700}}>
           <img
             src=".././assets/images/backgroundLegoBig.png"
             alt=""
-            className="w-100 h-100"
+            className="w-100"
           />
           <div
             className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75 p-3"
