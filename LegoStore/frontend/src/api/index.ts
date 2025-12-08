@@ -51,21 +51,18 @@ export default {
   carts() {
     return {
       getUserCart: (): Promise<AxiosResponse<CartItemType[]>> =>
-        axiosInstance.get(`carts`),
-      addLegoToCart: (legoId: number): Promise<AxiosResponse<CartItemType>> =>
-        axiosInstance.post(`carts/${legoId}`),
-      deleteLegoFromCart: (
+        axiosInstance.get(`cart`),
+      addLegoToCart: (
+        legoId: number,
+        amount: number
+      ): Promise<AxiosResponse<CartItemType[]>> =>
+        axiosInstance.post(`cart/item`, { legoId, amount }),
+      deleteLegoFromCart: (legoId: number): Promise<AxiosResponse<void>> =>
+        axiosInstance.delete(`cart/item/${legoId}`),
+      decrementLegoFromCart: (
         legoId: number
-      ): Promise<AxiosResponse<CartItemType>> =>
-        axiosInstance.delete(`carts/${legoId}`),
-      increaseLegoInCart: (
-        legoId: number
-      ): Promise<AxiosResponse<CartItemType>> =>
-        axiosInstance.patch(`carts/${legoId}/increasement`),
-      decreaseLegoInCart: (
-        legoId: number
-      ): Promise<AxiosResponse<CartItemType>> =>
-        axiosInstance.patch(`carts/${legoId}/decrement`),
+      ): Promise<AxiosResponse<CartItemType[]>> =>
+        axiosInstance.patch(`cart/item/${legoId}/decrement`),
     };
   },
 
