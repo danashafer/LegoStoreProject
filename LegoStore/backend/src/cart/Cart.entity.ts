@@ -1,13 +1,16 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../users/User.entity';
 import { Lego } from '../lego/Lego.entity';
+import { CartItem } from './CartItem.entity';
 
 @Entity('carts')
 export class Cart {
@@ -15,6 +18,7 @@ export class Cart {
   cartId: number;
 
   @OneToOne(() => User, (user) => user.cart)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column({ name: 'user_id' })
@@ -29,4 +33,7 @@ export class Cart {
     inverseJoinColumn: { name: 'lego_id', referencedColumnName: 'legoId' },
   })
   legos: Lego[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  cartItems: CartItem[];
 }
