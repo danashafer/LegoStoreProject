@@ -101,12 +101,12 @@ export const OrderHistoryItem: FC<OrderHistoryItem> = ({
                 <div>
                   <div style={{ fontWeight: 600 }}>{item.lego.name}</div>
                   <div style={{ fontSize: "0.9rem", color: "#666" }}>
-                    {item.quantity} x {item.lego.price}$
+                    {item.amount} x {item.lego.price}$
                   </div>
                 </div>
 
                 <div style={{ fontWeight: 600 }}>
-                  {Number(item.lego.price) * item.quantity}$
+                  {Number(item.lego.price) * item.amount}$
                 </div>
               </div>
             ))}

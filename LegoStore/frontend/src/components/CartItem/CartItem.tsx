@@ -1,18 +1,25 @@
 import { FC } from "react";
-import { Lego } from "../../utils/types";
+import { CartItemType, Lego } from "../../utils/types";
 import { useUser } from "../../context/User";
 
 interface CartItemProps {
-  lego: Lego;
+  item: CartItemType;
   onDeleteLego: (id: number) => void;
+  onIncrease: (id: number) => void;
+  onDecrease: (id: number) => void;
 }
 
-export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
-  const { user } = useUser();
-  console.log(lego);
-  console.log(lego.legoId);
+export const CartItem: FC<CartItemProps> = ({
+  item,
+  onDeleteLego,
+  onIncrease,
+  onDecrease,
+}) => {
+  // const { user } = useUser();
+  console.log(item);
+  console.log(item.lego.legoId);
 
-  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${lego.imageKey}`;
+  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${item.lego.imageKey}`;
 
   return (
     <div
@@ -26,7 +33,7 @@ export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
       {/* Thumbnail */}
       <img
         src={imageUrl || "https://via.placeholder.com/70"}
-        alt={lego.name}
+        alt={item.lego.name}
         style={{
           width: "70px",
           height: "70px",
@@ -38,9 +45,9 @@ export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
 
       {/* Name + description */}
       <div style={{ flex: 1 }}>
-        <h5 style={{ margin: 0, fontWeight: 600 }}>{lego.name}</h5>
+        <h5 style={{ margin: 0, fontWeight: 600 }}>{item.lego.name}</h5>
         <p style={{ margin: 0, fontSize: "14px", opacity: 0.8 }}>
-          {lego.description}
+          {item.lego.description}
         </p>
       </div>
 
@@ -57,17 +64,17 @@ export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
         <button
           className="btn btn-sm"
           style={{ padding: "0 6px" }}
-          //   onClick={onDecrease}
+          onClick={() => onDecrease(item.lego.legoId)}
         >
           -
         </button>
 
-        <span style={{ padding: "0 8px" }}>{amount}</span>
+        <span style={{ padding: "0 8px" }}>{item.amount}</span>
 
         <button
           className="btn btn-sm"
           style={{ padding: "0 6px" }}
-          //   onClick={onIncrease}
+          onClick={() => onIncrease(item.lego.legoId)}
         >
           +
         </button>
@@ -77,13 +84,13 @@ export const CartItem: FC<CartItemProps> = ({ lego, onDeleteLego }) => {
       <button
         className="btn"
         style={{ marginRight: "16px" }}
-        onClick={() => onDeleteLego(lego.legoId)}
+        onClick={() => onDeleteLego(item.lego.legoId)}
       >
         <i className="bi bi-trash" style={{ fontSize: "18px" }}></i>
       </button>
 
       {/* Price */}
-      <div style={{ fontWeight: 600 }}>{lego.price}$</div>
+      <div style={{ fontWeight: 600 }}>{item.lego.price * item.amount}$</div>
     </div>
   );
 };
