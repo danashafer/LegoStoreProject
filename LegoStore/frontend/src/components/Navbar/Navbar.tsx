@@ -77,7 +77,7 @@ export const Navbar: FC = () => {
   return (
     <>
       <nav
-        className="navbar navbar-expand-lg navbar-light"
+        className="navbar navbar-expand-sm navbar-light"
         style={{ backgroundColor: "#e0b7ff" }}
       >
         <h1 className="navbar-brand">Lego Store</h1>
