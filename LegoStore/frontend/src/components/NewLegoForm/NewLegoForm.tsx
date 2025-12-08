@@ -80,6 +80,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="setNameInput"
                 placeholder="set name"
+                required
                 onChange={(e) =>
                   setNewLego((prev) => ({
                     ...prev,
@@ -95,6 +96,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="inputDescription"
                 placeholder="description"
+                required
                 onChange={(e) =>
                   setNewLego((prev) => ({
                     ...prev,
@@ -110,6 +112,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="priceInput"
                 placeholder="0"
+                required min={1}
                 onChange={(e) =>
                   setNewLego((prev) => ({
                     ...prev,
