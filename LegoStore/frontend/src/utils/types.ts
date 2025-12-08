@@ -23,7 +23,7 @@ export interface LoginInfo {
 
 export interface OrderItem {
   orderItemId: number;
-  quantity: number;
+  amount: number;
   lego: Lego;
 }
 
