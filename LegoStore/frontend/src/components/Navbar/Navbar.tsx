@@ -70,7 +70,7 @@ export const Navbar: FC = () => {
       setAfterLoginPath(null);
     }
     window.location.reload()
-
+    
     setIsAuthOpen(false);
   };
 

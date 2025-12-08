@@ -17,6 +17,7 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
     name: "",
     price: 0,
     description: "",
+    amount: 0,
     file: null,
   });
   const [loading, setLoading] = useState(false);
@@ -112,11 +113,29 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 className="form-control"
                 id="priceInput"
                 placeholder="0"
-                required min={1}
+                required
+                min={1}
                 onChange={(e) =>
                   setNewLego((prev) => ({
                     ...prev,
                     price: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>amount in store</label>
+              <input
+                type="number"
+                className="form-control"
+                id="priceInput"
+                placeholder="0"
+                required
+                min={1}
+                onChange={(e) =>
+                  setNewLego((prev) => ({
+                    ...prev,
+                    amount: e.target.value,
                   }))
                 }
               />

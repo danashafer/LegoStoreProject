@@ -23,6 +23,7 @@ export class LegoService {
       name: dto.name,
       description: dto.description,
       price: dto.price,
+      amount: dto.amount,
       imageKey: dto.imageKey,
     });
 

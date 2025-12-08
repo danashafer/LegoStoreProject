@@ -53,11 +53,11 @@ CREATE TABLE legostore.cart_items (
 
 );
 
--- CREATE TYPE order_status AS ENUM (
+--CREATE TYPE order_status AS ENUM (
 --     'pending',
---     'paid',
+--     'processing',
 --     'shipped',
---     'completed',
+--     'delivered',
 --     'canceled'
 -- );
 -- ORDERS

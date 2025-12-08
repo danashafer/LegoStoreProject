@@ -3,6 +3,7 @@ export interface Lego {
   name: string;
   description: string;
   price: number;
+  amount: number;
   imageKey: string;
   categoryId: number;
 }
@@ -59,5 +60,6 @@ export type NewLegoFormData = {
   name: string;
   description: string;
   price: number;
+  amount: number;
   file: File | null;
 };
