@@ -42,7 +42,7 @@ export const OrderHistory = () => {
   return (
     <>
       <div className="d-flex justify-content-center">
-        <div className="m-3 position-relative  " style={{ width: 2000 }}>
+        <div className=" position-relative  " style={{ width: 1700}}>
           <img
             src=".././assets/images/backgroundLegoBig.png"
             alt=""
