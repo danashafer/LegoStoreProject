@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lego } from 'src/lego/Lego.entity';
 // import { Param } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { CreateLegoDto } from './dto/create-lego.dto';
 
 @Injectable()
@@ -12,10 +12,16 @@ export class LegoService {
     private readonly legoRepository: Repository<Lego>,
   ) {}
 
-  async getAll(): Promise<Lego[]> {
-    const allLegos: Lego[] = await this.legoRepository.find();
+  // async getAll(): Promise<Lego[]> {
+  //   const allLegos: Lego[] = await this.legoRepository.find();
 
-    return allLegos;
+  //   return allLegos;
+  // }
+
+  async getAllForStore(): Promise<Lego[]> {
+    return this.legoRepository.find({
+      where: { amount: MoreThan(0) },
+    });
   }
 
   async addNewLego(dto: CreateLegoDto): Promise<Lego> {
@@ -30,9 +36,19 @@ export class LegoService {
     return this.legoRepository.save(lego);
   }
 
-  async deleteLego(id: number): Promise<void> {
-    console.log('deleting lego');
+  async deleteLego(id: number) {
+    const lego = await this.legoRepository.findOne({
+      where: { legoId: id },
+    });
 
-    await this.legoRepository.delete(id);
+    if (!lego) {
+      throw new NotFoundException('Lego not found');
+    }
+
+    lego.amount = 0;
+    // optional flag if you want
+    // lego.isActive = false
+
+    return this.legoRepository.save(lego);
   }
 }

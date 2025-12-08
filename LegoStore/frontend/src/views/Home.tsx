@@ -67,6 +67,7 @@ export const Home = () => {
     await api.legos().deleteLego(legoToDeleteId);
 
     setLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
+    setFilteredLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
   };
 
   const handleAddLegoToCart = async (legoToAddId: number) => {

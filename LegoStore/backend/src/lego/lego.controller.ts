@@ -8,6 +8,6 @@ export class LegoController {
 
   @Get()
   getById(): Promise<Lego[]> {
-    return this.legoService.getAll();
+    return this.legoService.getAllForStore();
   }
 }
