@@ -3,6 +3,7 @@ export interface Lego {
   name: string;
   description: string;
   price: number;
+  amount: number;
   imageKey: string;
   categoryId: number;
 }
@@ -22,7 +23,7 @@ export interface LoginInfo {
 
 export interface OrderItem {
   orderItemId: number;
-  quantity: number;
+  amount: number;
   lego: Lego;
 }
 
@@ -59,5 +60,11 @@ export type NewLegoFormData = {
   name: string;
   description: string;
   price: number;
+  amount: number;
   file: File | null;
 };
+
+export type CartItemType = {
+  lego: Lego;
+  amount: number;
+}

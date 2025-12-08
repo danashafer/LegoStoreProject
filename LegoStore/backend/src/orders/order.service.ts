@@ -7,6 +7,7 @@ import { Order } from './Order.entity';
 import { Cart } from 'src/cart/Cart.entity';
 import { OrderItem } from './orderItem.entity';
 import { OrderStatus } from './orderStatus.enum';
+import { CartItem } from 'src/cart/CartItem.entity';
 
 @Injectable()
 export class OrderService {
@@ -17,6 +18,8 @@ export class OrderService {
     private readonly legoRepository: Repository<Lego>,
     @InjectRepository(Cart)
     private readonly cartRepository: Repository<Cart>,
+    @InjectRepository(CartItem)
+    private readonly cartItemRepository: Repository<CartItem>,
   ) {}
 
   async getOrdersByUser(userId: number): Promise<Order[]> {
@@ -30,24 +33,26 @@ export class OrderService {
   }
 
   async createOrderFromCart(userId: number): Promise<Order> {
+    // load cart with items and legos
     const cart = await this.cartRepository.findOne({
       where: { userId },
-      relations: ['legos'],
+      relations: ['cartItems', 'cartItems.lego'],
     });
 
-    if (!cart || cart.legos.length === 0) {
+    if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
       throw new Error('Cart is empty');
     }
 
-    const items = cart.legos.map((lego) => {
+    // build order items from cart items
+    const items = cart.cartItems.map((cartItem) => {
       const item = new OrderItem();
-      item.lego = lego;
-      item.quantity = 1;
+      item.lego = cartItem.lego;
+      item.amount = cartItem.amount; // use amount from cart
       return item;
     });
 
     const total = items.reduce(
-      (sum, item) => sum + Number(item.lego.price) * item.quantity,
+      (sum, item) => sum + Number(item.lego.price) * item.amount,
       0,
     );
 
@@ -58,16 +63,19 @@ export class OrderService {
 
     const savedOrder = await this.orderRepository.save(order);
 
-    // clear the cart after order
-    cart.legos = [];
+    // clear cart after order
+    // remove cart items from DB and from the cart object
+    await this.cartItemRepository.remove(cart.cartItems);
+    cart.cartItems = [];
     await this.cartRepository.save(cart);
 
     return savedOrder;
   }
-  async getAllOrders(): Promise<Order[]> {
-    const allOrders: Order[] = await this.orderRepository.find();
 
-    return allOrders;
+  async getAllOrders(): Promise<Order[]> {
+    return this.orderRepository.find({
+      relations: ['items', 'items.lego', 'user'],
+    });
   }
 
   async updateStatus(orderId: number, status: OrderStatus) {

@@ -14,6 +14,9 @@ export class Lego {
   @Column()
   price: number;
 
+  @Column()
+  amount: number;
+
   @Column({ name: 'image_key', nullable: true })
   imageKey: string;
 }

@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import {
+  CartItemType,
   CreateLegoDto,
   Lego,
   LoginInfo,
@@ -30,8 +31,18 @@ export default {
 
       getProfile: (): Promise<AxiosResponse<User>> =>
         axiosInstance.get("profile", {}),
-      signUp: (username: string, email: string, password: string, avatarKey?: string) =>
-        axiosInstance.post("/auth/register", { username, email, password, avatarKey }),
+      signUp: (
+        username: string,
+        email: string,
+        password: string,
+        avatarKey?: string
+      ) =>
+        axiosInstance.post("/auth/register", {
+          username,
+          email,
+          password,
+          avatarKey,
+        }),
       loginWithGoogle: (idToken: string) =>
         axiosInstance.post("/auth/google", { idToken }),
     };
@@ -39,12 +50,19 @@ export default {
 
   carts() {
     return {
-      getUserCart: (): Promise<AxiosResponse<Lego[]>> =>
-        axiosInstance.get(`carts`, {}),
-      addLegoToCart: (legoId: number): Promise<AxiosResponse<Lego>> =>
-        axiosInstance.post(`carts/${legoId}`, null, {}),
+      getUserCart: (): Promise<AxiosResponse<CartItemType[]>> =>
+        axiosInstance.get(`cart`),
+      addLegoToCart: (
+        legoId: number,
+        amount: number
+      ): Promise<AxiosResponse<CartItemType[]>> =>
+        axiosInstance.post(`cart/item`, { legoId, amount }),
       deleteLegoFromCart: (legoId: number): Promise<AxiosResponse<void>> =>
-        axiosInstance.delete(`carts/${legoId}`, {}),
+        axiosInstance.delete(`cart/item/${legoId}`),
+      decrementLegoFromCart: (
+        legoId: number
+      ): Promise<AxiosResponse<CartItemType[]>> =>
+        axiosInstance.patch(`cart/item/${legoId}/decrement`),
     };
   },
 

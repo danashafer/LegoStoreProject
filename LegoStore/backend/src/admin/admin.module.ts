@@ -6,9 +6,10 @@ import { AdminController } from './admin.controller';
 import { Order } from 'src/orders/Order.entity';
 import { OrderService } from 'src/orders/order.service';
 import { Cart } from 'src/cart/Cart.entity';
+import { CartItem } from 'src/cart/CartItem.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Lego, Order,Cart])],
+  imports: [TypeOrmModule.forFeature([Lego, Order, Cart, CartItem])],
   controllers: [AdminController],
   providers: [LegoService, OrderService],
 })
