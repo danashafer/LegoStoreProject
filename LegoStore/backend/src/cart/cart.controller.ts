@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -13,34 +14,62 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 import { Cart } from 'src/cart/Cart.entity';
 import { Lego } from 'src/lego/Lego.entity';
 import { CartService } from 'src/cart/cart.service';
+import { CartItem } from './CartItem.entity';
+import { AddToCartDto } from './dto/cartItem.dto';
 
-@Controller('carts')
+@UseGuards(JwtAuthGuard)
+@Controller('cart')
 export class CartControler {
   constructor(private readonly cartService: CartService) {}
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getByUserId(@Req() req): Promise<Lego[]> {
+  async getByUserId(@Req() req): Promise<CartItem[]> {
     const legosInCart = await this.cartService.getByUserId(req.user.id);
     console.log(legosInCart);
     return legosInCart;
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('/:legoId')
-  async addNewLegoToCart(
-    @Req() req,
-    @Param('legoId', ParseIntPipe) legoId: number,
-  ): Promise<void> {
-    console.log('adding to cart');
-    await this.cartService.addNewLegoToCart(req.user.id, legoId);
+  // @UseGuards(JwtAuthGuard)
+  // @Post('/:legoId')
+  // async addNewLegoToCart(
+  //   @Req() req,
+  //   @Param('legoId', ParseIntPipe) legoId: number,
+  // ): Promise<void> {
+  //   console.log('adding to cart');
+  //   await this.cartService.addNewLegoToCart(req.user.id, legoId);
+  // }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Delete('/:legoId')
+  // deleteLegoFromCart(
+  //   @Req() req,
+  //   @Param('legoId', ParseIntPipe) legoId: number,
+  // ): Promise<void> {
+  //   return this.cartService.deleteLegoFromCart(req.user.id, legoId);
+  // }
+
+  @Post('item')
+  async addItem(@Req() req, @Body() body: AddToCartDto) {
+    const userId = req.user.id;
+    const quantity = body.amount ?? 1;
+    console.log(userId);
+
+    return this.cartService.addItem(userId, body.legoId, quantity);
   }
-  
-  @UseGuards(JwtAuthGuard)
-  @Delete('/:legoId')
-  deleteLegoFromCart(
-    @Req() req,
-    @Param('legoId', ParseIntPipe) legoId: number,
-  ): Promise<void> {
-    return this.cartService.deleteLegoFromCart(req.user.id, legoId);
+
+  @Patch('item/:legoId/decrement')
+  async decrementItem(@Req() req, @Param('legoId') legoId: string) {
+    const userId = req.user.id;
+    const legoIdNumber = Number(legoId);
+
+    return this.cartService.decrementItem(userId, legoIdNumber);
+  }
+
+  @Delete('item/:legoId')
+  async removeItem(@Req() req, @Param('legoId') legoId: string) {
+    const userId = req.user.id;
+    const legoIdNumber = Number(legoId);
+
+    return this.cartService.removeItem(userId, legoIdNumber);
   }
 }
