@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { OrderItem } from './orderItem.entity';
 import { OrderStatus } from './orderStatus.enum';
+import { User } from 'src/users/User.entity';
 
 @Entity('orders')
 export class Order {
@@ -12,6 +20,10 @@ export class Order {
 
   @Column({ name: 'user_id' })
   userId: number;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column({
     name: 'created_at',

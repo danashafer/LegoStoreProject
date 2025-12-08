@@ -18,6 +18,14 @@ export const OrderHistoryItem: FC<OrderHistoryItem> = ({
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
 
+  const statusColors: Record<string, string> = {
+    pending: "#f5c542", 
+    processing: "#6aa9ff", 
+    shipped: "#8b5dd8", 
+    delivered: "#42c57b", 
+    canceled: "#e86c6e", 
+  };
+
   return (
     <>
       <div
@@ -40,7 +48,21 @@ export const OrderHistoryItem: FC<OrderHistoryItem> = ({
         {/* Middle row: Status */}
         <div className="mb-2">
           <span style={{ fontWeight: 600 }}>Status:</span>
-          <span style={{ marginLeft: 6 }}>{order.status}</span>
+
+          <span
+            style={{
+              marginLeft: 8,
+              padding: "3px 10px",
+              borderRadius: 8,
+              backgroundColor: statusColors[order.status] || "#ccc",
+              color: "white",
+              fontSize: 12,
+              fontWeight: 600,
+              textTransform: "uppercase",
+            }}
+          >
+            {order.status}
+          </span>
         </div>
         {canEditStatus && onChangeStatus && (
           <select
