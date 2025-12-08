@@ -10,6 +10,7 @@ export const Home = () => {
   const [legos, setLegos] = useState<Lego[]>([]);
   const { user } = useUser();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [filteredLegos, setFilteredLegos] = useState(legos);
 
   useEffect(() => {
     const getLegosForDisplay = async () => {
@@ -47,14 +48,12 @@ export const Home = () => {
       throw new Error("Upload to S3 failed");
     }
 
-    const response = await api
-      .legos()
-      .addNewLego({
-        name: newLego.name,
-        description: newLego.description,
-        price: newLego.price,
-        imageKey: uploadInfo.data.key,
-      });
+    const response = await api.legos().addNewLego({
+      name: newLego.name,
+      description: newLego.description,
+      price: newLego.price,
+      imageKey: uploadInfo.data.key,
+    });
 
     setLegos((prev) => [...prev, response.data]);
   };
@@ -71,6 +70,16 @@ export const Home = () => {
     await api.carts().addLegoToCart(legoToAddId);
   };
 
+  const handleSearch = (searchedInput: string) => {
+    console.log("searching");
+    console.log(searchedInput);
+    setFilteredLegos(
+      legos.filter((lego) => {
+        const text = `${lego.name} ${lego.description}`.toLowerCase();
+        return text.includes(searchedInput);
+      })
+    );
+  };
   return (
     <>
       <img
@@ -79,7 +88,23 @@ export const Home = () => {
         height="300"
       ></img>
 
-      <h1> items </h1>
+      {/* <h1> items </h1> */}
+      <div className="d-flex justify-content-center m-3">
+        <form className="form-inline">
+          <input
+            className="form-control mr-sm-2 rounded"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            style={{ width: 300, borderColor: "#D7EEFF", borderWidth: "5px" }}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+          Search
+        </button> */}
+        </form>
+      </div>
+
       {user?.role === "admin" && (
         <button
           className="btn btn-secondary"
@@ -95,7 +120,7 @@ export const Home = () => {
         />
       )}
       <LegoDisplayBar
-        legos={legos}
+        legos={filteredLegos}
         onDeleteSet={handleDeleteLego}
         onAddToCart={handleAddLegoToCart}
       />
