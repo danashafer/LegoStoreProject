@@ -69,6 +69,7 @@ export const Navbar: FC = () => {
       navigate(afterLoginPath);
       setAfterLoginPath(null);
     }
+    window.location.reload()
 
     setIsAuthOpen(false);
   };
