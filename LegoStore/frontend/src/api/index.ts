@@ -10,23 +10,14 @@ import {
 } from "../utils/types";
 import axiosInstance from "./axiosInstance";
 
-
 export default {
   legos() {
     return {
       getAll: (): Promise<AxiosResponse<Lego[]>> => axiosInstance.get("legos"),
       addNewLego: (lego: CreateLegoDto): Promise<AxiosResponse<Lego>> =>
-        axiosInstance.post("admin/add-new-lego", lego, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.post("admin/new-lego", lego, {}),
       deleteLego: (legoId: number): Promise<AxiosResponse<void>> =>
-        axiosInstance.delete(`admin/delete-lego/${legoId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.delete(`admin/lego/${legoId}`, {}),
     };
   },
   users() {
@@ -38,11 +29,7 @@ export default {
         axiosInstance.post("auth/login", { email, password }),
 
       getProfile: (): Promise<AxiosResponse<User>> =>
-        axiosInstance.get("profile", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.get("profile", {}),
       signUp: (username: string, email: string, password: string) =>
         axiosInstance.post("/auth/register", { username, email, password }),
       loginWithGoogle: (idToken: string) =>
@@ -53,40 +40,20 @@ export default {
   carts() {
     return {
       getUserCart: (): Promise<AxiosResponse<Lego[]>> =>
-        axiosInstance.get(`carts`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.get(`carts`, {}),
       addLegoToCart: (legoId: number): Promise<AxiosResponse<Lego>> =>
-        axiosInstance.post(`carts/${legoId}`, null, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.post(`carts/${legoId}`, null, {}),
       deleteLegoFromCart: (legoId: number): Promise<AxiosResponse<void>> =>
-        axiosInstance.delete(`carts/${legoId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.delete(`carts/${legoId}`, {}),
     };
   },
 
   orders() {
     return {
       getOrders: (): Promise<AxiosResponse<Order[]>> =>
-        axiosInstance.get("orders", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.get("orders", {}),
       placeOrder: (): Promise<AxiosResponse<void>> =>
-        axiosInstance.post("orders", null, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
+        axiosInstance.post("orders", null, {}),
       getAllOrders: (): Promise<AxiosResponse<Order[]>> =>
         axiosInstance.get("admin/orders"),
       changeStatus: (
@@ -109,11 +76,9 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         ),
-          
     };
   },
 };
