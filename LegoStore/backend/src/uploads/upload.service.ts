@@ -54,13 +54,10 @@ export class UploadService {
     };
   }
 
-  async getUserAvatarUploadUrl(
-    userId: number,
-    fileName: string,
-    fileType: string,
-  ) {
+  async getUserAvatarUploadUrl(fileName: string, fileType: string) {
     const safeName = fileName.replace(/\s+/g, '-');
-    const key = `users/${userId}/avatar-${Date.now()}-${safeName}`;
+    const tempId = Date.now().toString();
+    const key = `users/${tempId}/avatar-${Date.now()}-${safeName}`;
 
     const command = new PutObjectCommand({
       Bucket: this.bucket,

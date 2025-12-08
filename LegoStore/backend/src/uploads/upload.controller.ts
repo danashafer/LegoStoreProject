@@ -14,12 +14,9 @@ export class UploadController {
     return this.uploadService.getLegoImageUploadUrl(legoId, fileName, fileType);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('user-avatar')
-  async getUserAvatarUploadUrl(@Req() req, @Body() body: UserAvatarUploadDto) {
-    const userId = req.user.userId; // adapt to your payload
+  async getUserAvatarUploadUrl(@Body() body: UserAvatarUploadDto) {
     return this.uploadService.getUserAvatarUploadUrl(
-      userId,
       body.fileName,
       body.fileType,
     );
