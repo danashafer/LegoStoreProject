@@ -33,12 +33,15 @@ export class AuthController {
     const user = await this.authService.register(dto);
 
     const token = this.authService.login(user);
+    console.log('user signin up:');
+    console.log(user);
 
     return {
       id: user.userId,
       username: user.username,
       email: user.email,
       role: user.role,
+      avatarKey: user.avatarKey,
       token,
     };
   }

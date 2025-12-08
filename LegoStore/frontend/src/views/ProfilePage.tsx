@@ -5,6 +5,9 @@ import { useEffect } from "react";
 export const Profile = () => {
   const { user } = useUser();
   const navigate = useNavigate();
+  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${user?.avatarKey}`;
+
+  console.log(imageUrl);
 
   useEffect(() => {
     console.log(user?.email);
@@ -25,7 +28,7 @@ export const Profile = () => {
           />
           <div className="position-absolute top-50 start-50 translate-middle bg-light rounded w-75 h-75">
             <img
-              src=""
+              src={imageUrl}
               alt=""
               className="rounded-circle m-2 border border-seconsary"
               style={{ height: 200, width: 200 }}
@@ -38,20 +41,18 @@ export const Profile = () => {
               className="btn"
               style={{ backgroundColor: "#ffcce1" }}
             >
-               <NavLink to="/order-history">
-                view order history
-              </NavLink>
+              <NavLink to="/order-history">view order history</NavLink>
               <i className="bi bi-clock-history"></i>
             </button>
-            {user?.role =="admin" && <button
-              type="submit"
-              className="btn"
-              style={{ backgroundColor: "#ffcce1" }}
-            >
-               <NavLink to="/admin-orders">
-                view all orders
-              </NavLink>
-            </button>}
+            {user?.role == "admin" && (
+              <button
+                type="submit"
+                className="btn"
+                style={{ backgroundColor: "#ffcce1" }}
+              >
+                <NavLink to="/admin-orders">view all orders</NavLink>
+              </button>
+            )}
           </div>
         </div>
       </div>

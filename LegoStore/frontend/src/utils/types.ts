@@ -12,6 +12,7 @@ export interface User {
   username: string;
   email: string;
   role: "user" | "admin";
+  avatarKey: string | null;
 }
 
 export interface LoginInfo {

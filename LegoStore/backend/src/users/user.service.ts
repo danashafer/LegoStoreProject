@@ -17,7 +17,7 @@ export class UserService {
       where: {
         email: email,
       },
-      select: ['userId', 'username', 'email', 'password', 'role'],
+      select: ['userId', 'username', 'email', 'password', 'role', 'avatarKey'],
     });
 
     console.log(user);
@@ -31,6 +31,8 @@ export class UserService {
         userId: id,
       },
     });
+    console.log('check for user with user avatar');
+    console.log(user);
 
     return user;
   }
@@ -40,6 +42,7 @@ export class UserService {
     email: string;
     password: string;
     role: 'user' | 'admin';
+    avatarKey?: string;
   }) {
     const user = this.userRepository.create(data);
     return this.userRepository.save(user);

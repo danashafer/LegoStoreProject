@@ -16,6 +16,7 @@ export class UserController {
   @Get('profile')
   getProfile(@Req() req): Promise<User | null> {
     console.log(req.user);
+    console.log('getting profile');
     return this.userService.findOne(req.user.id);
   }
 }

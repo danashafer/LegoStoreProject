@@ -34,6 +34,7 @@ export class AuthService {
       email: dto.email,
       password: passwordHash,
       role: 'user',
+      avatarKey: dto.avatarKey,
     });
 
     return user;

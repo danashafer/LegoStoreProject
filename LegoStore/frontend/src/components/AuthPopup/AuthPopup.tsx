@@ -63,10 +63,14 @@ export const AuthPopup: FC<AuthPopupProps> = ({
           const fileName = avatarFile.name;
           const fileType = avatarFile.type || "image/png";
 
+          console.log(fileName);
+
           //ask backend for upload URL for signup avatar
           const uploadInfo = await api
             .upload()
             .getUserAvatarUploadUrl(fileName, fileType);
+
+            console.log(uploadInfo.data);
 
           //upload file to S3
           const uploadRes = await fetch(uploadInfo.data.uploadUrl, {
@@ -77,9 +81,13 @@ export const AuthPopup: FC<AuthPopupProps> = ({
             body: avatarFile,
           });
 
+          console.log(uploadRes)
+
           if (!uploadRes.ok) {
             throw new Error("Avatar upload failed");
           }
+
+          console.log(uploadInfo.data.key);
 
           avatarKey = uploadInfo.data.key;
         }
