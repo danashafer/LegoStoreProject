@@ -14,7 +14,10 @@ export const Home = () => {
 
   useEffect(() => {
     const getLegosForDisplay = async () => {
-      setLegos((await api.legos().getAll()).data);
+      const res = (await api.legos().getAll()).data
+      setLegos(res);
+      setFilteredLegos(res);
+      console.log(filteredLegos);
     };
 
     getLegosForDisplay();

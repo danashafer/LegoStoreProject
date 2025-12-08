@@ -1,95 +1,3 @@
-// import { FC, useState } from "react";
-
-// type LoginPopupProps = {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   onLogin: (email: string, password: string) => Promise<void> | void;
-// };
-
-// export const LoginPopup: FC<LoginPopupProps> = ({
-//   isOpen,
-//   onClose,
-//   onLogin,
-// }) => {
-//   if (!isOpen) return null;
-
-//   // eslint-disable-next-line react-hooks/rules-of-hooks
-//   const [email, setEmail] = useState("");
-//   // eslint-disable-next-line react-hooks/rules-of-hooks
-//   const [password, setPassword] = useState("");
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     await onLogin(email, password);
-//   };
-
-//   return (
-//     <>
-//       <div
-//         style={{
-//           position: "fixed",
-//           inset: 0,
-//           backgroundColor: "rgba(0,0,0,0.5)",
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//           zIndex: 9999,
-//         }}
-//       >
-//         <div
-//           style={{
-//             backgroundColor: "white",
-//             padding: "24px",
-//             borderRadius: "12px",
-//             minWidth: "320px",
-//             maxWidth: "90vw",
-//             boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-//           }}
-//         >
-//           <h2>Login</h2>
-
-//           <form onSubmit={handleSubmit}>
-//             <div className="form-group">
-//               {" "}
-//               <label>dont have an account?</label>
-//               <button className="btn btn-secondary">Sign up</button>
-//             </div>
-
-//             <div className="form-group">
-//               <label>Email address</label>
-//               <input
-//                 type="email"
-//                 className="form-control"
-//                 id="exampleInputEmail1"
-//                 aria-describedby="emailHelp"
-//                 placeholder="Enter email"
-//                 onChange={(e) => setEmail(e.target.value)}
-//               />
-//               <small id="emailHelp" className="form-text text-muted">
-//                 We'll never share your email with anyone else.
-//               </small>
-//             </div>
-//             <div className="form-group">
-//               <label>Password</label>
-//               <input
-//                 type="password"
-//                 className="form-control"
-//                 id="exampleInputPassword1"
-//                 placeholder="Password"
-//                 onChange={(e) => setPassword(e.target.value)}
-//               />
-//             </div>
-
-//             <button type="submit" className="btn btn-primary">
-//               Login
-//             </button>
-//           </form>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
 import { FC, useState, FormEvent } from "react";
 import api from "../../api";
 import { GoogleLogin } from "@react-oauth/google";
@@ -118,6 +26,7 @@ export const AuthPopup: FC<AuthPopupProps> = ({
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   if (!isOpen) return null;
 
@@ -125,6 +34,7 @@ export const AuthPopup: FC<AuthPopupProps> = ({
     setUsername("");
     setEmail("");
     setPassword("");
+    setAvatarFile(null);
   };
 
   const switchToLogin = () => {
@@ -146,7 +56,44 @@ export const AuthPopup: FC<AuthPopupProps> = ({
       if (mode === "login") {
         res = await api.users().login(email, password);
       } else {
-        res = await api.users().signUp(username, email, password);
+        // res = await api.users().signUp(username, email, password);
+        let avatarKey: string | undefined;
+
+        if (avatarFile) {
+          const fileName = avatarFile.name;
+          const fileType = avatarFile.type || "image/png";
+
+          console.log(fileName);
+
+          //ask backend for upload URL for signup avatar
+          const uploadInfo = await api
+            .upload()
+            .getUserAvatarUploadUrl(fileName, fileType);
+
+            console.log(uploadInfo.data);
+
+          //upload file to S3
+          const uploadRes = await fetch(uploadInfo.data.uploadUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": avatarFile.type || "image/png",
+            },
+            body: avatarFile,
+          });
+
+          console.log(uploadRes)
+
+          if (!uploadRes.ok) {
+            throw new Error("Avatar upload failed");
+          }
+
+          console.log(uploadInfo.data.key);
+
+          avatarKey = uploadInfo.data.key;
+        }
+
+        //signup, include avatarKey if exists
+        res = await api.users().signUp(username, email, password, avatarKey);
       }
 
       onAuthSuccess(res.data);
@@ -226,6 +173,17 @@ export const AuthPopup: FC<AuthPopupProps> = ({
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+              />
+            </div>
+          )}
+          {mode === "signup" && (
+            <div className="form-group mb-3">
+              <label>Avatar (optional)</label>
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
               />
             </div>
           )}

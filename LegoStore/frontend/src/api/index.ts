@@ -30,8 +30,8 @@ export default {
 
       getProfile: (): Promise<AxiosResponse<User>> =>
         axiosInstance.get("profile", {}),
-      signUp: (username: string, email: string, password: string) =>
-        axiosInstance.post("/auth/register", { username, email, password }),
+      signUp: (username: string, email: string, password: string, avatarKey?: string) =>
+        axiosInstance.post("/auth/register", { username, email, password, avatarKey }),
       loginWithGoogle: (idToken: string) =>
         axiosInstance.post("/auth/google", { idToken }),
     };
@@ -73,6 +73,19 @@ export default {
         axiosInstance.post(
           "uploads/lego-image",
           { legoId, fileName, fileType },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ),
+      getUserAvatarUploadUrl: (
+        fileName: string,
+        fileType: string
+      ): Promise<AxiosResponse<UploadUrlResponse>> =>
+        axiosInstance.post(
+          "uploads/user-avatar  ",
+          { fileName, fileType },
           {
             headers: {
               "Content-Type": "application/json",

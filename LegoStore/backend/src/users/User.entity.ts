@@ -20,4 +20,7 @@ export class User {
 
   @OneToOne(() => Cart, (cart) => cart.user)
   cart: Cart;
+
+  @Column({ nullable: true, name: 'avatar_key' })
+  avatarKey: string;
 }
