@@ -12,11 +12,6 @@ export class LegoService {
     private readonly legoRepository: Repository<Lego>,
   ) {}
 
-  // async getAll(): Promise<Lego[]> {
-  //   const allLegos: Lego[] = await this.legoRepository.find();
-
-  //   return allLegos;
-  // }
 
   async getAllForStore(): Promise<Lego[]> {
     return this.legoRepository.find({
@@ -46,8 +41,6 @@ export class LegoService {
     }
 
     lego.amount = 0;
-    // optional flag if you want
-    // lego.isActive = false
 
     return this.legoRepository.save(lego);
   }

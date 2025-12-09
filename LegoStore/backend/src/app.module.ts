@@ -11,8 +11,6 @@ import { Cart } from './cart/Cart.entity';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './orders/order.module';
 import { UploadModule } from './uploads/upload.module';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
 
 @Module({
   imports: [

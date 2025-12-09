@@ -60,14 +60,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // important: return the user object, not { user }
     return user;
   }
 
   login(user: User) {
     console.log('user in login:', user);
     const payload: AuthJwtPayload = {
-      sub: user.userId, // adjust to your field name
+      sub: user.userId,
       role: user.role, // "admin" | "user"
     };
 

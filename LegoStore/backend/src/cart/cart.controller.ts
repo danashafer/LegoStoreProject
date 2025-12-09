@@ -29,25 +29,6 @@ export class CartControler {
     return legosInCart;
   }
 
-  // @UseGuards(JwtAuthGuard)
-  // @Post('/:legoId')
-  // async addNewLegoToCart(
-  //   @Req() req,
-  //   @Param('legoId', ParseIntPipe) legoId: number,
-  // ): Promise<void> {
-  //   console.log('adding to cart');
-  //   await this.cartService.addNewLegoToCart(req.user.id, legoId);
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Delete('/:legoId')
-  // deleteLegoFromCart(
-  //   @Req() req,
-  //   @Param('legoId', ParseIntPipe) legoId: number,
-  // ): Promise<void> {
-  //   return this.cartService.deleteLegoFromCart(req.user.id, legoId);
-  // }
-
   @Post('item')
   async addItem(@Req() req, @Body() body: AddToCartDto) {
     const userId = req.user.id;

@@ -23,12 +23,4 @@ export class OrderItem {
 
   @Column()
   amount: number;
-
-  //   @Column({
-  //     name: 'price_at_purchase',
-  //     type: 'decimal',
-  //     precision: 10,
-  //     scale: 2,
-  //   })
-  //   priceAtPurchase: string;
 }

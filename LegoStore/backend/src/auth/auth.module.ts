@@ -23,22 +23,3 @@ import { PassportModule } from '@nestjs/passport';
 })
 export class AuthModule {}
 
-// import { PassportModule } from '@nestjs/passport';
-
-// @Module({
-//   imports: [
-//     PassportModule,
-//     JwtModule.registerAsync({
-//       imports: [ConfigModule],
-//       inject: [jwtConfig.KEY],
-//       useFactory: (config: ConfigType<typeof jwtConfig>) => ({
-//         secret: config.secret,
-//         signOptions: { expiresIn: config.signOptions.expiresIn },
-//       }),
-//     }),
-//     ConfigModule,
-//   ],
-//   providers: [JwtStrategy, AuthService],
-//   exports: [AuthService],
-// })
-// export class AuthModule {}
