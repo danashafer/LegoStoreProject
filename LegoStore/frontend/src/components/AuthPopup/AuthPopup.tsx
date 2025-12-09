@@ -1,6 +1,8 @@
 import { FC, useState, FormEvent } from "react";
 import api from "../../api";
 import { GoogleLogin } from "@react-oauth/google";
+import toast from "react-hot-toast";
+import { AxiosResponse } from "axios";
 
 type AuthMode = "login" | "signup";
 
@@ -54,7 +56,12 @@ export const AuthPopup: FC<AuthPopupProps> = ({
       let res;
 
       if (mode === "login") {
-        res = await api.users().login(email, password);
+        try {
+          res = await api.users().login(email, password);
+          toast.success("successfully logged in");
+        } catch (e) {
+          toast.error("login failed");
+        }
       } else {
         let avatarKey: string | undefined;
 
@@ -62,14 +69,10 @@ export const AuthPopup: FC<AuthPopupProps> = ({
           const fileName = avatarFile.name;
           const fileType = avatarFile.type || "image/png";
 
-          console.log(fileName);
-
           //ask backend for upload URL for signup avatar
           const uploadInfo = await api
             .upload()
             .getUserAvatarUploadUrl(fileName, fileType);
-
-            console.log(uploadInfo.data);
 
           //upload file to S3
           const uploadRes = await fetch(uploadInfo.data.uploadUrl, {
@@ -80,16 +83,18 @@ export const AuthPopup: FC<AuthPopupProps> = ({
             body: avatarFile,
           });
 
-
           if (!uploadRes.ok) {
             throw new Error("Avatar upload failed");
           }
 
           avatarKey = uploadInfo.data.key;
         }
-
-        //signup, include avatarKey if exists
-        res = await api.users().signUp(username, email, password, avatarKey);
+        try {
+          res = await api.users().signUp(username, email, password, avatarKey);
+          toast.success("successfully signed up")
+        } catch (e) {
+          toast.error("sign up failed");
+        }
       }
 
       onAuthSuccess(res.data);

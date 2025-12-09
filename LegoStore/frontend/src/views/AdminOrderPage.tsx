@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import { Order, OrderStatus } from "../utils/types";
 import { OrderHistoryItem } from "../components/OrderHistoryItem/OrderHistoryItem";
+import toast from "react-hot-toast";
 
 export const AdminOrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const load = async () => {
-      const res = await api.orders().getAllOrders();
-      setOrders(res.data);
+      try {
+        const res = await api.orders().getAllOrders();
+        setOrders(res.data);
+      } catch (e) {
+        toast.error("failed load orders");
+      }
     };
 
     load();
@@ -20,12 +25,17 @@ export const AdminOrdersPage = () => {
     newStatus: OrderStatus
   ) => {
     console.log(newStatus);
-    await api.orders().changeStatus(orderId, newStatus);
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.orderId === orderId ? { ...order, status: newStatus } : order
-      )
-    );
+    try {
+      await api.orders().changeStatus(orderId, newStatus);
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.orderId === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+      toast.success("status changed");
+    } catch (e) {
+      toast.error("failed to change status");
+    }
   };
 
   return (
