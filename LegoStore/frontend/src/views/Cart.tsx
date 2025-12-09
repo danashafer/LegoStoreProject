@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/User";
 import { useNavigate } from "react-router-dom";
-import { CartItemType, Lego } from "../utils/types";
+import { CartItemType } from "../utils/types";
 import api from "../api";
 import { CartItem } from "../components/CartItem";
 import toast from "react-hot-toast";
@@ -10,18 +10,27 @@ export const Cart = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [itemsInCart, setItemsInCart] = useState<CartItemType[]>([]);
+  // const [cartTotal, setCartTotal] = useState<number>(0);
 
   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
-    await api.carts().deleteLegoFromCart(legoToDeleteId);
-    setItemsInCart((prev) =>
-      prev.filter((item) => item.lego.legoId !== legoToDeleteId)
-    );
+    try {
+      await api.carts().deleteLegoFromCart(legoToDeleteId);
+      setItemsInCart((prev) =>
+        prev.filter((item) => item.lego.legoId !== legoToDeleteId)
+      );
+    } catch (e) {
+      toast.error("error deleting lego from cart");
+    }
   };
 
   const handlePlaceOrder = async () => {
-    await api.orders().placeOrder();
-    setItemsInCart([]);
-    toast.success("order placed")
+    try {
+      await api.orders().placeOrder();
+      setItemsInCart([]);
+      toast.success("order placed");
+    } catch (e) {
+      toast.error("error placing order");
+    }
   };
 
   useEffect(() => {
@@ -33,37 +42,47 @@ export const Cart = () => {
 
   useEffect(() => {
     const getLegosInCart = async () => {
-      console.log(user?.userId);
-      const res = await api.carts().getUserCart();
-
-      setItemsInCart(res.data);
-      console.log("the items in cart are :");
-      console.log(itemsInCart);
+      try {
+        const res = await api.carts().getUserCart();
+        setItemsInCart(res.data);
+      } catch (e) {
+        toast.error("error getting items for cart");
+      }
     };
 
     getLegosInCart();
   }, []);
 
+  const cartTotal = itemsInCart.reduce((sum, item) => {
+    return sum + Number(item.amount) * Number(item.lego.price);
+  }, 0);
+
   const handleIncrease = async (legoId: number) => {
     try {
       const res = await api.carts().addLegoToCart(legoId, 1);
       setItemsInCart(res.data);
-      
-    } catch (e) {}
+    } catch (e: any) {
+      if (e.response.status == 400) {
+        toast.error("not enough stock");
+      } else {
+        toast.error("error increasing item");
+      }
+    }
   };
 
   const handleDecrease = async (legoId: number) => {
-    const res = await api.carts().decrementLegoFromCart(legoId);
-    setItemsInCart(res.data);
+    try {
+      const res = await api.carts().decrementLegoFromCart(legoId);
+      setItemsInCart(res.data);
+    } catch (e) {
+      toast.error("error decreasing item");
+    }
   };
-
-  console.log(itemsInCart);
-  console.log(localStorage.getItem("token"));
 
   return (
     <>
       <div className="d-flex justify-content-center">
-        <div className=" position-relative  " style={{ width: 1700}}>
+        <div className=" position-relative" style={{ width: 1700 }}>
           <img
             src=".././assets/images/backgroundLegoBig.png"
             alt=""
@@ -89,19 +108,22 @@ export const Cart = () => {
                     />
                   ))}
                 </div>
-                <button
-                  className="btn"
-                  style={{ backgroundColor: "#ffcce1" }}
-                  onClick={handlePlaceOrder}
-                >
-                  place order
-                </button>
+                <div>
+                  <button
+                    className="btn"
+                    style={{ backgroundColor: "#ffcce1" }}
+                    onClick={handlePlaceOrder}
+                  >
+                    place order
+                  </button>
+                  <span>total price:</span>
+                  <span>{cartTotal}$</span>
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
     </>
-    // <h1> this is the cart page </h1>
   );
 };
