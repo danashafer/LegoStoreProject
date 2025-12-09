@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/User";
 import { useNavigate } from "react-router-dom";
-import { Lego, Order } from "../utils/types";
+import { Order } from "../utils/types";
 import api from "../api";
-import { CartItem } from "../components/CartItem";
 import { OrderHistoryItem } from "../components/OrderHistoryItem/OrderHistoryItem";
+import toast from "react-hot-toast";
 
 export const OrderHistory = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
-
-  //   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
-  //     await api.carts().deleteLegoFromCart(legoToDeleteId);
-  //     setLegosInCart((prev) =>
-  //       prev.filter((lego) => lego.legoId !== legoToDeleteId)
-  //     );
-  //   };
 
   useEffect(() => {
     if (!user) {
@@ -27,22 +20,21 @@ export const OrderHistory = () => {
 
   useEffect(() => {
     const getOrders = async () => {
-      const res = await api.orders().getOrders();
-
-      setOrders(res.data);
-      console.log(orders);
+      try {
+        const res = await api.orders().getOrders();
+        setOrders(res.data);
+      } catch (e) {
+        toast.error("error getting orders");
+      }
     };
 
     getOrders();
   }, []);
 
-  console.log(orders);
-  console.log(localStorage.getItem("token"));
-
   return (
     <>
       <div className="d-flex justify-content-center">
-        <div className=" position-relative  " style={{ width: 1700}}>
+        <div className=" position-relative  " style={{ width: 1700 }}>
           <img
             src=".././assets/images/backgroundLegoBig.png"
             alt=""

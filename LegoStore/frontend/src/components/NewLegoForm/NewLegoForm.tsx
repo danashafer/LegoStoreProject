@@ -114,7 +114,8 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
                 id="priceInput"
                 placeholder="0"
                 required
-                min={1}
+                min="0.01"
+                step=".01"
                 onChange={(e) =>
                   setNewLego((prev) => ({
                     ...prev,

@@ -56,7 +56,6 @@ export const AuthPopup: FC<AuthPopupProps> = ({
       if (mode === "login") {
         res = await api.users().login(email, password);
       } else {
-        // res = await api.users().signUp(username, email, password);
         let avatarKey: string | undefined;
 
         if (avatarFile) {
@@ -81,13 +80,10 @@ export const AuthPopup: FC<AuthPopupProps> = ({
             body: avatarFile,
           });
 
-          console.log(uploadRes)
 
           if (!uploadRes.ok) {
             throw new Error("Avatar upload failed");
           }
-
-          console.log(uploadInfo.data.key);
 
           avatarKey = uploadInfo.data.key;
         }
