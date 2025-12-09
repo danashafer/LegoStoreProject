@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { CreateLegoDto, Lego, NewLegoFormData } from "../../utils/types";
 
 type NewLegoFormProps = {
-  //   isOpen: boolean;
   onClose: () => void;
   onSubmitAddNewSet: (newLego: NewLegoFormData) => Promise<void> | void;
 };
@@ -71,7 +70,26 @@ export const NewLegoForm: FC<NewLegoFormProps> = ({
             boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
           }}
         >
-          <h2>Add a new lego</h2>
+          {/* <button
+            type="button"
+            className="btn btn-sm btn-outline-secondary"
+            onClick={onClose}
+          >
+            X
+          </button>
+          <h2>Add a new lego</h2> */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h3>
+              Add a new lego
+            </h3>
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-secondary"
+              onClick={onClose}
+            >
+              X
+            </button>
+          </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">

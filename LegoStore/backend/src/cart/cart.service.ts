@@ -6,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from 'src/cart/Cart.entity';
 import { Lego } from 'src/lego/Lego.entity';
-// import { Param } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CartItem } from './CartItem.entity';
 
