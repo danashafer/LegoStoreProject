@@ -1,0 +1,140 @@
+import { FC, useState } from "react";
+import { Order, OrderStatus } from "../../utils/types";
+
+interface OrderHistoryItem {
+  order: Order;
+  canEditStatus?: boolean;
+  onChangeStatus?: (orderId: number, newStatus: OrderStatus) => void;
+}
+
+export const OrderHistoryItem: FC<OrderHistoryItem> = ({
+  order,
+  canEditStatus,
+  onChangeStatus,
+}) => {
+  console.log(order);
+  console.log(order.orderId);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => setIsOpen((prev) => !prev);
+
+  const statusColors: Record<string, string> = {
+    pending: "#f5c542", 
+    processing: "#6aa9ff", 
+    shipped: "#8b5dd8", 
+    delivered: "#42c57b", 
+    canceled: "#e86c6e", 
+  };
+
+  return (
+    <>
+      <div
+        className="d-flex flex-column p-3 mb-3"
+        style={{
+          backgroundColor: "#FFE6ED",
+          borderRadius: "12px",
+          width: "100%",
+          border: "2px solid #FFCCD7",
+        }}
+      >
+        {/* Top row: Order number + Date */}
+        <div className="d-flex justify-content-between mb-2">
+          <h5 style={{ margin: 0, fontWeight: 700 }}>Order #{order.orderId}</h5>
+
+          <span style={{ fontWeight: 600, color: "#555" }}>
+            {new Date(order.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+        {/* Middle row: Status */}
+        <div className="mb-2">
+          <span style={{ fontWeight: 600 }}>Status:</span>
+
+          <span
+            style={{
+              marginLeft: 8,
+              padding: "3px 10px",
+              borderRadius: 8,
+              backgroundColor: statusColors[order.status] || "#ccc",
+              color: "white",
+              fontSize: 12,
+              fontWeight: 600,
+              textTransform: "uppercase",
+            }}
+          >
+            {order.status}
+          </span>
+        </div>
+        {canEditStatus && onChangeStatus && (
+          <select
+            value={order.status}
+            onChange={(e) =>
+              onChangeStatus(order.orderId, e.target.value as OrderStatus)
+            }
+          >
+            <option value="pending">pending</option>
+            <option value="processing">processing</option>
+            <option value="shipped">shipped</option>
+            <option value="delivered">delivered</option>
+            <option value="canceled">canceled</option>
+          </select>
+        )}
+        {/* Bottom row: Price */}
+        <div
+          className="d-flex justify-content-end"
+          style={{ fontSize: "1.1rem", fontWeight: 700 }}
+        >
+          Total: {order.totalPrice}$
+        </div>
+        {/* toggle button */}
+        <div className="mt-3 d-flex justify-content-between align-items-center">
+          <button
+            type="button"
+            className="btn btn-sm"
+            style={{
+              backgroundColor: "#FFCCD7",
+              borderRadius: "999px",
+              fontWeight: 500,
+            }}
+            onClick={toggleOpen}
+          >
+            {isOpen ? "Hide items" : "View items"}
+            <i
+              className={`ms-2 bi ${
+                isOpen ? "bi-chevron-up" : "bi-chevron-down"
+              }`}
+            />
+          </button>
+        </div>
+        {/* dropdown items */}
+        {isOpen && (
+          <div
+            className="mt-3"
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              padding: "10px 12px",
+            }}
+          >
+            {order.items.map((item) => (
+              <div
+                key={item.orderItemId}
+                className="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <div style={{ fontWeight: 600 }}>{item.lego.name}</div>
+                  <div style={{ fontSize: "0.9rem", color: "#666" }}>
+                    {item.amount} x {item.lego.price}$
+                  </div>
+                </div>
+
+                <div style={{ fontWeight: 600 }}>
+                  {Number(item.lego.price) * item.amount}$
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};

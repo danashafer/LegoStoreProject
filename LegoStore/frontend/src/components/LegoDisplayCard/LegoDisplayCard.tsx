@@ -1,0 +1,51 @@
+import { FC } from "react";
+import { Lego } from "../../utils/types";
+import { useUser } from "../../context/User";
+
+interface LegoDisplayCardProps {
+  lego: Lego;
+  onDeleteSet: (id: number) => void;
+  onAddToCart: (id: number)=> void;
+}
+
+export const LegoDisplayCard: FC<LegoDisplayCardProps> = ({ lego , onDeleteSet, onAddToCart}) => {
+  const { user } = useUser();
+  console.log(lego);
+  console.log(lego.legoId);
+  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${lego.imageKey}`
+
+  return (
+    <div
+      className="card m-3 p-2"
+      style={{
+        width: 220,
+        backgroundColor: "#FFEDF4",
+        border: "3px solid #ffcce1",
+      }}
+    >
+      <img
+        className="card-img-top"
+        src={imageUrl}
+        alt={lego.name}
+        style={{ width: 200, height: 200, borderRadius: 10 }}
+      ></img>
+      <div className="card-body">
+        <h5 className="card-title">{lego.name}</h5>
+        <p className="card-text">{lego.description}</p>
+        <p className="card-text">{lego.price}$</p>
+        <div className="d-flex align-items-center gap-1">
+          {user && (
+            <a href="#" className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={() => onAddToCart(lego.legoId)}>
+              add to cart
+            </a>
+          )}
+          {user?.role == "admin" && (
+            <button className="btn" style={{ backgroundColor: "#ffcce1" }} onClick={() => onDeleteSet(lego.legoId)}>
+              <i className="bi bi-trash"></i>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
