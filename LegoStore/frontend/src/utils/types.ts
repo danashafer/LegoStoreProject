@@ -53,6 +53,7 @@ export type CreateLegoDto = {
   name: string;
   description: string;
   price: number;
+  amount: number;
   imageKey: string;
 };
 

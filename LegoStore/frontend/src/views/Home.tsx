@@ -5,6 +5,7 @@ import { LegoDisplayBar } from "../components/LegoDisplayBar/LegoDisplayBar.tsx"
 import { useUser } from "../context/User/useUser.ts";
 import { NewLegoForm } from "../components/NewLegoForm/NewLegoForm.tsx";
 import { v4 as uuidv4 } from "uuid";
+import toast from "react-hot-toast";
 
 export const Home = () => {
   const [legos, setLegos] = useState<Lego[]>([]);
@@ -14,10 +15,13 @@ export const Home = () => {
 
   useEffect(() => {
     const getLegosForDisplay = async () => {
-      const res = (await api.legos().getAll()).data
-      setLegos(res);
-      setFilteredLegos(res);
-      console.log(filteredLegos);
+      try {
+        const res = (await api.legos().getAll()).data;
+        setLegos(res);
+        setFilteredLegos(res);
+      } catch (e) {
+        toast.error("error loading legos in store");
+      }
     };
 
     getLegosForDisplay();
@@ -37,7 +41,6 @@ export const Home = () => {
     const uploadInfo = await api
       .upload()
       .getLegoImageUploadUrl(legoId, fileName, fileType);
-    // const response = await api.legos().addNewLego(newLego);
 
     const uploadRes = await fetch(uploadInfo.data.uploadUrl, {
       method: "PUT",
@@ -48,35 +51,53 @@ export const Home = () => {
     });
 
     if (!uploadRes.ok) {
+      toast.error("image upload failed");
       throw new Error("Upload to S3 failed");
     }
 
-    const response = await api.legos().addNewLego({
-      name: newLego.name,
-      description: newLego.description,
-      price: newLego.price,
-      imageKey: uploadInfo.data.key,
-    });
+    try {
+      const response = await api.legos().addNewLego({
+        name: newLego.name,
+        description: newLego.description,
+        price: newLego.price,
+        amount: newLego.amount,
+        imageKey: uploadInfo.data.key,
+      });
 
-    setLegos((prev) => [...prev, response.data]);
+      setLegos((prev) => [...prev, response.data]);
+      setFilteredLegos((prev) => [...prev, response.data]);
+      toast.success("new lego added");
+    } catch (e) {
+      toast.error("adding new lego failed");
+    }
   };
 
   const handleDeleteLego = async (legoToDeleteId: number) => {
     console.log("deleting lego " + legoToDeleteId);
 
-    await api.legos().deleteLego(legoToDeleteId);
+    try {
+      await api.legos().deleteLego(legoToDeleteId);
 
-    setLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
-    setFilteredLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
+      setLegos((prev) => prev.filter((lego) => lego.legoId !== legoToDeleteId));
+      setFilteredLegos((prev) =>
+        prev.filter((lego) => lego.legoId !== legoToDeleteId)
+      );
+      toast.success("lego deleted");
+    } catch (e) {
+      toast.error("error deleting lego");
+    }
   };
 
   const handleAddLegoToCart = async (legoToAddId: number) => {
-    await api.carts().addLegoToCart(legoToAddId, 1);
+    try {
+      await api.carts().addLegoToCart(legoToAddId, 1);
+      toast.success("item added to cart");
+    } catch (e) {
+      toast.error("error adding to cart");
+    }
   };
 
   const handleSearch = (searchedInput: string) => {
-    console.log("searching");
-    console.log(searchedInput);
     setFilteredLegos(
       legos.filter((lego) => {
         const text = `${lego.name} ${lego.description}`.toLowerCase();
@@ -92,7 +113,6 @@ export const Home = () => {
         height="300"
       ></img>
 
-      {/* <h1> items </h1> */}
       <div className="d-flex justify-content-center m-3">
         <form className="form-inline">
           <input
@@ -103,9 +123,6 @@ export const Home = () => {
             style={{ width: 300, borderColor: "#D7EEFF", borderWidth: "5px" }}
             onChange={(e) => handleSearch(e.target.value)}
           />
-          {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button> */}
         </form>
       </div>
 

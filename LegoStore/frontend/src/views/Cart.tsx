@@ -10,7 +10,6 @@ export const Cart = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [itemsInCart, setItemsInCart] = useState<CartItemType[]>([]);
-  // const [cartTotal, setCartTotal] = useState<number>(0);
 
   const handleDeleteLegoFromCart = async (legoToDeleteId: number) => {
     try {
@@ -53,6 +52,7 @@ export const Cart = () => {
     getLegosInCart();
   }, []);
 
+  //calculating cart total each time page rerenders - cartItems change
   const cartTotal = itemsInCart.reduce((sum, item) => {
     return sum + Number(item.amount) * Number(item.lego.price);
   }, 0);

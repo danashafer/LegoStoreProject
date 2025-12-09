@@ -5,10 +5,9 @@ import { useEffect } from "react";
 export const Profile = () => {
   const { user } = useUser();
   const navigate = useNavigate();
-  const imageUrl = `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${user?.avatarKey}`;
-
-  console.log(imageUrl);
-
+  const imageUrl = user?.avatarKey
+    ? `https://lego-store-assets.s3.eu-north-1.amazonaws.com/${user.avatarKey}`
+    : ".././assets/images/defaultProfileImage.png";
   useEffect(() => {
     console.log(user?.email);
     if (!user) {
